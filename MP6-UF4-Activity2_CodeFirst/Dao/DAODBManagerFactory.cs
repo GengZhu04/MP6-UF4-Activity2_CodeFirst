@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace MP6_UF4_Activity2_CodeFirst.Dao
 {
-    internal class Class1
+    public class DAODBManagerFactory
     {
+        public static IDAODBManager CreateDAODBManager()
+        {
+            return new DAODBManager();
+        }
     }
 }

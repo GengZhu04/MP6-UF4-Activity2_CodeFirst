@@ -8,6 +8,6 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
 {
     public interface IDAODBManager
     {
-
+        public bool ImportCustomers();
     }
 }

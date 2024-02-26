@@ -258,6 +258,64 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
             return done;
         }
 
+        public bool ImportOrders()
+        {
+            bool done = false;
+            try
+            {
+                using (TextFieldParser parser = new TextFieldParser(IDAODBManager.ORDERS_FILE_PATH))
+                {
+                    parser.TextFieldType = FieldType.Delimited;
+                    parser.SetDelimiters(",");
+                    parser.HasFieldsEnclosedInQuotes = true;
+
+                    string[] fields = parser.ReadFields();
+
+                    while (!parser.EndOfData)
+                    {
+                        fields = parser.ReadFields();
+
+                        int orderNumber = Convert.ToInt32(fields[0]);
+                        DateTime orderDate, requiredDate, shippedDate;
+                        DateTime.TryParse(fields[1], out orderDate);
+                        DateTime.TryParse(fields[2], out requiredDate);
+                        DateTime.TryParse(fields[3], out shippedDate);
+                        string status = fields[4];
+                        string comments = fields[5];
+                        int? customerNumber = fields[6].ToLower().Equals("null") ? null :Convert.ToInt32(fields[6]);
+
+                        var newOrder = new Orders()
+                        {
+                            OrderNumber = orderNumber,
+                            OrderData = orderDate,
+                            RequiredDate = requiredDate,
+                            ShippedDate = shippedDate,
+                            Status = status,
+                            Comments = comments,
+                            CustomerNumberId = customerNumber,
+                        };
+
+                        companyDBContext.Orders.Add(newOrder);
+                        try
+                        {
+                            companyDBContext.SaveChanges();
+                        }
+                        catch (Exception exc)
+                        {
+                            companyDBContext.Remove(newOrder);
+                            Console.WriteLine(exc.Message);
+                        }
+                    }
+                }
+                done = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return done;
+        }
+        
         public bool ImportProductLines()
         {
             bool done = false;
@@ -372,5 +430,7 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
             }
             return done;
         }
+        
+
     }
 }

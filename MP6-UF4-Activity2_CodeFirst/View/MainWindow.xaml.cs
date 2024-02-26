@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MP6_UF4_Activity2_CodeFirst.Dao;
+using MP6_UF4_Activity2_CodeFirst.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,15 @@ namespace MP6_UF4_Activity2_CodeFirst.View
     /// </summary>
     public partial class MainWindow : Window
     {
+        private CompanyDBContext companyDBContext = new CompanyDBContext();
+        private IDAODBManager daoManager;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            daoManager = DAODBManagerFactory.CreateDAODBManager(companyDBContext);
+            daoManager.ImportCustomers();
         }
     }
 }

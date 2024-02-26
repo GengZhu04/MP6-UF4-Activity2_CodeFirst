@@ -8,6 +8,8 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
 {
     public interface IDAODBManager
     {
+        public const string EMPLOYEES_FILE_PATH = "./Files/EMPLOYEES.csv";
         public bool ImportCustomers();
+        public bool ImportEmployees();
     }
 }

@@ -3,14 +3,16 @@ using System;
 using MP6_UF4_Activity2_CodeFirst.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MP6_UF4_Activity2_CodeFirst.Migrations
 {
     [DbContext(typeof(CompanyDBContext))]
-    partial class CompanyDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240226173706_seven")]
+    partial class seven
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,7 +55,7 @@ namespace MP6_UF4_Activity2_CodeFirst.Migrations
                         .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
                         .HasMaxLength(50);
 
-                    b.Property<decimal?>("CreditLimit")
+                    b.Property<decimal>("CreditLimit")
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<string>("CustomerName")
@@ -67,10 +69,11 @@ namespace MP6_UF4_Activity2_CodeFirst.Migrations
                         .HasMaxLength(50);
 
                     b.Property<string>("PostalCode")
+                        .IsRequired()
                         .HasColumnType("varchar(15) CHARACTER SET utf8mb4")
                         .HasMaxLength(15);
 
-                    b.Property<int?>("SalesRepEmployeeNumber")
+                    b.Property<int>("SalesRepEmployeeNumber")
                         .HasColumnType("int(11)");
 
                     b.Property<string>("State")
@@ -140,34 +143,42 @@ namespace MP6_UF4_Activity2_CodeFirst.Migrations
                         .HasMaxLength(10);
 
                     b.Property<string>("AddressLine1")
+                        .IsRequired()
                         .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
                         .HasMaxLength(50);
 
                     b.Property<string>("AddressLine2")
+                        .IsRequired()
                         .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
                         .HasMaxLength(50);
 
                     b.Property<string>("City")
+                        .IsRequired()
                         .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
                         .HasMaxLength(50);
 
                     b.Property<string>("Country")
+                        .IsRequired()
                         .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
                         .HasMaxLength(50);
 
                     b.Property<string>("Phone")
+                        .IsRequired()
                         .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
                         .HasMaxLength(50);
 
                     b.Property<string>("PostalCode")
+                        .IsRequired()
                         .HasColumnType("varchar(15) CHARACTER SET utf8mb4")
                         .HasMaxLength(15);
 
                     b.Property<string>("State")
+                        .IsRequired()
                         .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
                         .HasMaxLength(50);
 
                     b.Property<string>("Territory")
+                        .IsRequired()
                         .HasColumnType("varchar(10) CHARACTER SET utf8mb4")
                         .HasMaxLength(10);
 
@@ -327,7 +338,9 @@ namespace MP6_UF4_Activity2_CodeFirst.Migrations
                 {
                     b.HasOne("MP6_UF4_Activity2_CodeFirst.Model.Employees", "Employee")
                         .WithMany("Customers")
-                        .HasForeignKey("SalesRepEmployeeNumber");
+                        .HasForeignKey("SalesRepEmployeeNumber")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MP6_UF4_Activity2_CodeFirst.Model.Employees", b =>

@@ -33,8 +33,8 @@ namespace MP6_UF4_Activity2_CodeFirst.Model
 
         [ForeignKey("EmployeesToReport")]
         [Column(TypeName = "int(11)")]
-        public int ReportsTo { get; set; }
-        public Employees EmployeesToReport { get; set; }
+        public int? ReportsTo { get; set; }
+        public Employees? EmployeesToReport { get; set; }
 
         [StringLength(50)]
         public string JobTitle { get; set; }

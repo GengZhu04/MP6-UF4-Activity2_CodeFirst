@@ -40,17 +40,17 @@ namespace MP6_UF4_Activity2_CodeFirst.Model
         public string State { get; set; }
 
         [StringLength(15)]
-        public string PostalCode { get; set; }
+        public string? PostalCode { get; set; }
 
         [StringLength(50)]
         public string Country { get; set; }
 
         [Column(TypeName = "int(11)")]
-        public int SalesRepEmployeeNumber { get; set; }
-        public Employees Employee { get; set; }
+        public int? SalesRepEmployeeNumber { get; set; }
+        public Employees? Employee { get; set; }
 
         [Column(TypeName = "decimal(10,2)")]
-        public decimal CreditLimit { get; set; }
+        public decimal? CreditLimit { get; set; }
 
         public ICollection<Payments> Payments { get; set; }
 

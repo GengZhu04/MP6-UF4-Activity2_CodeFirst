@@ -21,6 +21,7 @@ namespace MP6_UF4_Activity2_CodeFirst.Model
 
         [ForeignKey("ProductLines")]
         [Column(TypeName = "VARCHAR(50)")]
+        public string ProductLineId { get; set; }
         public ProductLines ProductLine { get; set; }
 
         [StringLength(10)]

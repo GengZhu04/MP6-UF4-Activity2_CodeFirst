@@ -22,6 +22,6 @@ namespace MP6_UF4_Activity2_CodeFirst.Model
         public string HtmlDescription { get; set; }
 
         [Column(TypeName = "MEDIUMBLOB")]
-        public byte[] Imatge { get; set; }
+        public byte[]? Imatge { get; set; }
     }
 }

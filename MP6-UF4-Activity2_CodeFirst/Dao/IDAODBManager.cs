@@ -14,6 +14,8 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
         public const string EMPLOYEES_FILE_PATH = "./Files/EMPLOYEES.csv";
         public const string OFFICES_FILE_PATH = "./Files/OFFICES.csv";
         public const string ORDERS_FILE_PATH = "./Files/ORDERS.csv";
+        public const string PRODUCTLINES_FILE_PATH = "./Files/PRODUCTLINES.csv";
+        public const string PRODUCTS_FILE_PATH = "./Files/PRODUCTS.csv";
 
         // Importations
         public bool ImportPayments();
@@ -21,5 +23,7 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
         public bool ImportEmployees();
         public bool ImportOffices();
         public bool ImportOrders();
+        public bool ImportProductLines();
+        public bool ImportProducts();
     }
 }

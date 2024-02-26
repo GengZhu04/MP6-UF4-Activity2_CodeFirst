@@ -315,6 +315,122 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
             }
             return done;
         }
+        
+        public bool ImportProductLines()
+        {
+            bool done = false;
+            try
+            {
+                using (TextFieldParser parser = new TextFieldParser(IDAODBManager.PRODUCTLINES_FILE_PATH))
+                {
+                    parser.TextFieldType = FieldType.Delimited;
+                    parser.SetDelimiters(",");
+                    parser.HasFieldsEnclosedInQuotes = true;
+
+                    string[] fields = parser.ReadFields();
+
+                    while (!parser.EndOfData)
+                    {
+                        fields = parser.ReadFields();
+
+                        string productLine = fields[0];
+                        string textDescription = fields[1];
+                        string? htmlDescription = fields[2];
+                        byte[]? image = fields[3].ToLower().Equals("null") ? null : Convert.FromBase64String(fields[3]);
+
+
+                        var newProductLine = new ProductLines()
+                        {
+                            ProductLine = productLine,
+                            TextDescription = textDescription,
+                            HtmlDescription = htmlDescription,
+                            Imatge = image
+                        };
+
+                        companyDBContext.ProductLines.Add(newProductLine);
+                        try
+                        {
+                            companyDBContext.SaveChanges();
+                        }
+                        catch (Exception exc)
+                        {
+                            companyDBContext.Remove(newProductLine);
+                            Console.WriteLine(exc.Message);
+                        }
+                    }
+                }
+                done = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return done;
+        }
+
+        public bool ImportProducts()
+        {
+            bool done = false;
+            try
+            {
+                using (TextFieldParser parser = new TextFieldParser(IDAODBManager.PRODUCTS_FILE_PATH))
+                {
+                    parser.TextFieldType = FieldType.Delimited;
+                    parser.SetDelimiters(",");
+                    parser.HasFieldsEnclosedInQuotes = true;
+
+                    string[] fields = parser.ReadFields();
+
+                    while (!parser.EndOfData)
+                    {
+                        fields = parser.ReadFields();
+                        string productCode = fields[0];
+                        string productName = fields[1];
+                        string productLineId = fields[2];
+                        string productScale = fields[3];
+                        string productVendor = fields[4];
+                        string productDescription = fields[5];
+                        short quantityInStock = Convert.ToInt16(fields[6]);
+                        decimal buyPrice = Convert.ToDecimal(fields[7]);
+                        decimal mSRP = Convert.ToDecimal(fields[8]);
+
+
+
+
+                        var newProduct = new Products()
+                        {
+                            ProductCode = productCode,
+                            ProductName = productName,
+                            ProductLineId = productLineId,
+                            ProductScale = productScale,
+                            ProductVendor = productVendor,
+                            ProductDescription = productDescription,
+                            QuantityInStock = quantityInStock,
+                            BuyPrice = buyPrice,
+                            MSRP = mSRP
+                        };
+
+                        companyDBContext.Products.Add(newProduct);
+                        try
+                        {
+                            companyDBContext.SaveChanges();
+                        }
+                        catch (Exception exc)
+                        {
+                            companyDBContext.Remove(newProduct);
+                            Console.WriteLine(exc.Message);
+                        }
+                    }
+                }
+                done = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return done;
+        }
+        
 
     }
 }

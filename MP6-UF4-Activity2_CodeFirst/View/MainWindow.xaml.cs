@@ -29,6 +29,7 @@ namespace MP6_UF4_Activity2_CodeFirst.View
             InitializeComponent();
 
             daoManager = DAODBManagerFactory.CreateDAODBManager(companyDBContext);
+
             //daoManager.ImportOffices();
             //daoManager.ImportEmployees();
             //daoManager.ImportCustomers();

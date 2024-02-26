@@ -15,7 +15,6 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
         public const string OFFICES_FILE_PATH = "./Files/OFFICES.csv";
 
         // Importations
-        public bool ImportCustomers();
         public bool ImportPayments();
         public bool ImportCustomers();
         public bool ImportEmployees();

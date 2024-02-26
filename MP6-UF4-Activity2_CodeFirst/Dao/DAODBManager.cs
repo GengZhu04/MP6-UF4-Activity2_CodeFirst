@@ -32,11 +32,11 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
                     parser.HasFieldsEnclosedInQuotes = true;
 
                     string[] fields = parser.ReadFields();
-                    fields = parser.ReadFields();
 
                     while (!parser.EndOfData)
                     {
-                        int customerNumber = Convert.ToInt32(fields[0].ToLower().Equals("null") ? 0 : fields[0]);
+                        fields = parser.ReadFields();
+                        int customerNumber = Convert.ToInt32(fields[0]);
                         string customerName = fields[1];
                         string contactLastName = fields[2];
                         string contactFirstName = fields[3];
@@ -47,8 +47,8 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
                         string state = fields[8];
                         string postalCode = fields[9];
                         string country = fields[10];
-                        int salesRepEmployeeNumber = Convert.ToInt32(fields[11].ToLower().Equals("null") ? 0 : fields[11]);
-                        decimal creditLimit = Convert.ToDecimal(fields[12].ToLower().Equals("null") ? (decimal)0 : fields[12]);
+                        int? salesRepEmployeeNumber = fields[11].ToLower().Equals("null") ? null : Convert.ToInt32(fields[11]);
+                        decimal? creditLimit = fields[12].ToLower().Equals("null") ? null: Convert.ToDecimal(fields[12]);
 
                         var newCustomer = new Customers()
                         {
@@ -67,10 +67,17 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
                         };
 
                         companyDBContext.Customers.Add(newCustomer);
-                        fields = parser.ReadFields();
+                        try
+                        {
+                            companyDBContext.SaveChanges();
+                        }
+                        catch (Exception exc)
+                        {
+                            companyDBContext.Remove(newCustomer);
+                            Console.WriteLine(exc.Message);
+                        }
                     }
                 }
-                companyDBContext.SaveChanges();
                 done = true;
             }
             catch (Exception ex)
@@ -92,19 +99,18 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
                     parser.HasFieldsEnclosedInQuotes = true;
 
                     string[] fields = parser.ReadFields();
-                    fields = parser.ReadFields();
 
                     while (!parser.EndOfData)
                     {
-                        int employeeNumber = Convert.ToInt32(fields[0].ToLower().Equals("null") ? 0 : fields[0]);
+                        fields = parser.ReadFields();
+                        int employeeNumber = Convert.ToInt32(fields[0].ToLower().Equals("null") ? "0" : fields[0]);
                         string lastName = fields[1];
                         string firstName = fields[2];
                         string extension = fields[3];
                         string email = fields[4];
                         string officeCode = fields[5];
-                        int reportsTo = Convert.ToInt32(fields[6].ToLower().Equals("null") ? 0 : fields[6]);
+                        int? reportsTo = fields[6].ToLower().Equals("null") ? null : Convert.ToInt32(fields[6]);
                         string jobTitle = fields[7];
-
 
                         var newEmployee = new Employees()
                         {
@@ -120,10 +126,17 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
                         };
 
                         companyDBContext.Employees.Add(newEmployee);
-                        fields = parser.ReadFields();
+                        try
+                        {
+                            companyDBContext.SaveChanges();
+                        }
+                        catch(Exception exc)
+                        {
+                            companyDBContext.Remove(newEmployee);
+                            Console.WriteLine(exc.Message);
+                        }
                     }
                 }
-                companyDBContext.SaveChanges();
                 done = true;
             }
             catch (Exception ex)
@@ -132,7 +145,7 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
             }
             return done;
         }
-
+        
         public bool ImportOffices()
         {
             bool done = false;
@@ -145,19 +158,19 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
                     parser.HasFieldsEnclosedInQuotes = true;
 
                     string[] fields = parser.ReadFields();
-                    fields = parser.ReadFields();
 
                     while (!parser.EndOfData)
                     {
+                        fields = parser.ReadFields();
                         string officeCode = fields[0];
-                        string city = fields[1];
-                        string phone = fields[2];
-                        string addressLine1 = fields[3];
-                        string addressLine2 = fields[4];
-                        string state = fields[5];
-                        string country = fields[6];
-                        string postalCode = fields[7];
-                        string territory = fields[8];
+                        string? city = fields[1];
+                        string? phone = fields[2];
+                        string? addressLine1 = fields[3];
+                        string? addressLine2 = fields[4];
+                        string? state = fields[5];
+                        string? country = fields[6];
+                        string? postalCode = fields[7];
+                        string? territory = fields[8];
 
 
                         var newOffices = new Offices()
@@ -174,10 +187,68 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
                         };
 
                         companyDBContext.Offices.Add(newOffices);
-                        fields = parser.ReadFields();
+                        try
+                        {
+                            companyDBContext.SaveChanges();
+                        }
+                        catch (Exception exc)
+                        {
+                            companyDBContext.Remove(newOffices);
+                            Console.WriteLine(exc.Message);
+                        }
                     }
                 }
-                companyDBContext.SaveChanges();
+                done = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return done;
+        }
+
+        public bool ImportPayments()
+        {
+            bool done = false;
+            try
+            {
+                using (TextFieldParser parser = new TextFieldParser(IDAODBManager.PAYMENTS_FILE_PATH))
+                {
+                    parser.TextFieldType = FieldType.Delimited;
+                    parser.SetDelimiters(",");
+                    parser.HasFieldsEnclosedInQuotes = true;
+
+                    string[] fields = parser.ReadFields();
+
+                    while (!parser.EndOfData)
+                    {
+                        fields = parser.ReadFields();
+                        int customerNumber = Convert.ToInt32(fields[0].ToLower().Equals("null") ? "0" : fields[0]);
+                        string checkNumber = fields[1];
+                        DateTime paymentDate;
+                        DateTime.TryParse(fields[2], out paymentDate);
+                        decimal amount = Convert.ToDecimal(fields[3].ToLower().Equals("null") ? "0" : fields[3]);
+
+                        var newPayment = new Payments()
+                        {
+                            CustomerNumber = customerNumber,
+                            CheckNumber = checkNumber,
+                            PaymentDate = paymentDate,
+                            Amount = amount
+                        };
+
+                        companyDBContext.Payments.Add(newPayment);
+                        try
+                        {
+                            companyDBContext.SaveChanges();
+                        }
+                        catch (Exception exc)
+                        {
+                            companyDBContext.Remove(newPayment);
+                            Console.WriteLine(exc.Message);
+                        }
+                    }
+                }
                 done = true;
             }
             catch (Exception ex)

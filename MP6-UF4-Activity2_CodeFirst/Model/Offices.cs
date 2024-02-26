@@ -16,28 +16,28 @@ namespace MP6_UF4_Activity2_CodeFirst.Model
         public string OfficeCode { get; set; }
 
         [StringLength(50)]
-        public string City { get; set; }
+        public string? City { get; set; }
 
         [StringLength(50)]
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
 
         [StringLength(50)]
-        public string AddressLine1 { get; set; }
+        public string? AddressLine1 { get; set; }
 
         [StringLength(50)]
-        public string AddressLine2 { get; set; }
+        public string? AddressLine2 { get; set; }
 
         [StringLength(50)]
-        public string State { get; set; }
+        public string? State { get; set; }
 
         [StringLength(50)]
-        public string Country { get; set; }
+        public string? Country { get; set; }
 
         [StringLength(15)]
-        public string PostalCode { get; set; }
+        public string? PostalCode { get; set; }
 
         [StringLength(10)]
-        public string Territory { get; set; }
+        public string? Territory { get; set; }
 
         public ICollection<Employees> Employees { get; set; }
     }

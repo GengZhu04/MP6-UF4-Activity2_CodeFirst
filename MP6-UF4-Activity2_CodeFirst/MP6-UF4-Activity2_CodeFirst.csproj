@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <None Remove="Files\CUSTOMERS.csv" />
+    <None Remove="Files\ORDERS.csv" />
     <None Remove="Files\PAYMENTS.csv" />
     <None Remove="Files\EMPLOYEES.csv" />
     <None Remove="Files\OFFICES.csv" />
@@ -33,6 +34,9 @@
 
   <ItemGroup>
     <Content Include="Files\CUSTOMERS.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\ORDERS.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Files\PAYMENTS.csv">

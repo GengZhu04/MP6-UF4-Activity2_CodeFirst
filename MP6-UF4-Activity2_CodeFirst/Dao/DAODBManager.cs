@@ -257,42 +257,56 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
             }
             return done;
         }
-        
-        public bool ImportPayments()
+
+        public bool ImportOrders()
         {
             bool done = false;
             try
             {
-                using (TextFieldParser parser = new TextFieldParser(IDAODBManager.PAYMENTS_FILE_PATH))
+                using (TextFieldParser parser = new TextFieldParser(IDAODBManager.ORDERS_FILE_PATH))
                 {
                     parser.TextFieldType = FieldType.Delimited;
                     parser.SetDelimiters(",");
                     parser.HasFieldsEnclosedInQuotes = true;
 
                     string[] fields = parser.ReadFields();
-                    fields = parser.ReadFields();
 
                     while (!parser.EndOfData)
                     {
-                        int customerNumber = Convert.ToInt32(fields[0].ToLower().Equals("null") ? 0 : fields[0]);
-                        string checkNumber = fields[1];
-                        DateTime paymentDate;
-                        DateTime.TryParse(fields[2],out paymentDate);
-                        decimal amount = Convert.ToDecimal(fields[3].ToLower().Equals("null") ? (decimal)0 : fields[3]);
+                        fields = parser.ReadFields();
 
-                        var newPayments = new Payments()
+                        int orderNumber = Convert.ToInt32(fields[0]);
+                        DateTime orderDate, requiredDate, shippedDate;
+                        DateTime.TryParse(fields[1], out orderDate);
+                        DateTime.TryParse(fields[2], out requiredDate);
+                        DateTime.TryParse(fields[3], out shippedDate);
+                        string status = fields[4];
+                        string comments = fields[5];
+                        int? customerNumber = fields[6].ToLower().Equals("null") ? null :Convert.ToInt32(fields[6]);
+
+                        var newOrder = new Orders()
                         {
-                            CustomerNumber = customerNumber,
-                            CheckNumber = checkNumber,
-                            PaymentDate = paymentDate,
-                            Amount = amount
+                            OrderNumber = orderNumber,
+                            OrderData = orderDate,
+                            RequiredDate = requiredDate,
+                            ShippedDate = shippedDate,
+                            Status = status,
+                            Comments = comments,
+                            CustomerNumberId = customerNumber,
                         };
 
-                        companyDBContext.Payments.Add(newPayments);
-                        fields = parser.ReadFields();
+                        companyDBContext.Orders.Add(newOrder);
+                        try
+                        {
+                            companyDBContext.SaveChanges();
+                        }
+                        catch (Exception exc)
+                        {
+                            companyDBContext.Remove(newOrder);
+                            Console.WriteLine(exc.Message);
+                        }
                     }
                 }
-                companyDBContext.SaveChanges();
                 done = true;
             }
             catch (Exception ex)
@@ -301,5 +315,6 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
             }
             return done;
         }
+
     }
 }

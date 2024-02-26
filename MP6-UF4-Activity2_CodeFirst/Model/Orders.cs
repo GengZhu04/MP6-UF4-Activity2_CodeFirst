@@ -28,8 +28,8 @@ namespace MP6_UF4_Activity2_CodeFirst.Model
 
 
         [Column(TypeName = "INT(11)")]
-        public int CustomerNumberId { get; set; }
-        public Customers Customer { get; set; }
+        public int? CustomerNumberId { get; set; }
+        public Customers? Customer { get; set; }
 
         public ICollection<OrderDetails> OrderDetails { get; set; }
     }

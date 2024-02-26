@@ -257,42 +257,113 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
             }
             return done;
         }
-        
-        public bool ImportPayments()
+
+        public bool ImportProductLines()
         {
             bool done = false;
             try
             {
-                using (TextFieldParser parser = new TextFieldParser(IDAODBManager.PAYMENTS_FILE_PATH))
+                using (TextFieldParser parser = new TextFieldParser(IDAODBManager.PRODUCTLINES_FILE_PATH))
                 {
                     parser.TextFieldType = FieldType.Delimited;
                     parser.SetDelimiters(",");
                     parser.HasFieldsEnclosedInQuotes = true;
 
                     string[] fields = parser.ReadFields();
-                    fields = parser.ReadFields();
 
                     while (!parser.EndOfData)
                     {
-                        int customerNumber = Convert.ToInt32(fields[0].ToLower().Equals("null") ? 0 : fields[0]);
-                        string checkNumber = fields[1];
-                        DateTime paymentDate;
-                        DateTime.TryParse(fields[2],out paymentDate);
-                        decimal amount = Convert.ToDecimal(fields[3].ToLower().Equals("null") ? (decimal)0 : fields[3]);
+                        fields = parser.ReadFields();
 
-                        var newPayments = new Payments()
+                        string productLine = fields[0];
+                        string textDescription = fields[1];
+                        string? htmlDescription = fields[2];
+                        byte[]? image = fields[3].ToLower().Equals("null") ? null : Convert.FromBase64String(fields[3]);
+
+
+                        var newProductLine = new ProductLines()
                         {
-                            CustomerNumber = customerNumber,
-                            CheckNumber = checkNumber,
-                            PaymentDate = paymentDate,
-                            Amount = amount
+                            ProductLine = productLine,
+                            TextDescription = textDescription,
+                            HtmlDescription = htmlDescription,
+                            Imatge = image
                         };
 
-                        companyDBContext.Payments.Add(newPayments);
-                        fields = parser.ReadFields();
+                        companyDBContext.ProductLines.Add(newProductLine);
+                        try
+                        {
+                            companyDBContext.SaveChanges();
+                        }
+                        catch (Exception exc)
+                        {
+                            companyDBContext.Remove(newProductLine);
+                            Console.WriteLine(exc.Message);
+                        }
                     }
                 }
-                companyDBContext.SaveChanges();
+                done = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return done;
+        }
+
+        public bool ImportProducts()
+        {
+            bool done = false;
+            try
+            {
+                using (TextFieldParser parser = new TextFieldParser(IDAODBManager.PRODUCTS_FILE_PATH))
+                {
+                    parser.TextFieldType = FieldType.Delimited;
+                    parser.SetDelimiters(",");
+                    parser.HasFieldsEnclosedInQuotes = true;
+
+                    string[] fields = parser.ReadFields();
+
+                    while (!parser.EndOfData)
+                    {
+                        fields = parser.ReadFields();
+                        string productCode = fields[0];
+                        string productName = fields[1];
+                        string productLineId = fields[2];
+                        string productScale = fields[3];
+                        string productVendor = fields[4];
+                        string productDescription = fields[5];
+                        short quantityInStock = Convert.ToInt16(fields[6]);
+                        decimal buyPrice = Convert.ToDecimal(fields[7]);
+                        decimal mSRP = Convert.ToDecimal(fields[8]);
+
+
+
+
+                        var newProduct = new Products()
+                        {
+                            ProductCode = productCode,
+                            ProductName = productName,
+                            ProductLineId = productLineId,
+                            ProductScale = productScale,
+                            ProductVendor = productVendor,
+                            ProductDescription = productDescription,
+                            QuantityInStock = quantityInStock,
+                            BuyPrice = buyPrice,
+                            MSRP = mSRP
+                        };
+
+                        companyDBContext.Products.Add(newProduct);
+                        try
+                        {
+                            companyDBContext.SaveChanges();
+                        }
+                        catch (Exception exc)
+                        {
+                            companyDBContext.Remove(newProduct);
+                            Console.WriteLine(exc.Message);
+                        }
+                    }
+                }
                 done = true;
             }
             catch (Exception ex)

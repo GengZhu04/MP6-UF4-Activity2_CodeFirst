@@ -77,5 +77,50 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
             }
             return done;
         }
+
+        public bool ImportPayments()
+        {
+            bool done = false;
+            try
+            {
+                using (TextFieldParser parser = new TextFieldParser(IDAODBManager.PAYMENTS_FILE_PATH))
+                {
+                    parser.TextFieldType = FieldType.Delimited;
+                    parser.SetDelimiters(",");
+                    parser.HasFieldsEnclosedInQuotes = true;
+
+                    string[] fields = parser.ReadFields();
+                    fields = parser.ReadFields();
+
+                    while (!parser.EndOfData)
+                    {
+                        int customerNumber = Convert.ToInt32(fields[0].ToLower().Equals("null") ? 0 : fields[0]);
+                        string checkNumber = fields[1];
+                        DateTime paymentDate;
+                        DateTime.TryParse(fields[2],out paymentDate);
+                        decimal amount = Convert.ToDecimal(fields[3].ToLower().Equals("null") ? (decimal)0 : fields[3]);
+
+                        var newPayments = new Payments()
+                        {
+                            CustomerNumber = customerNumber,
+                            CheckNumber = checkNumber,
+                            PaymentDate = paymentDate,
+                            Amount = amount
+                        };
+
+                        companyDBContext.Payments.Add(newPayments);
+                        fields = parser.ReadFields();
+                    }
+                }
+                companyDBContext.SaveChanges();
+                done = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return done;
+        }
+    
     }
 }

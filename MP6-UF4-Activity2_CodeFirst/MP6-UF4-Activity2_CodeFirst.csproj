@@ -17,11 +17,14 @@
 
   <ItemGroup>
     <None Remove="Files\CUSTOMERS.csv" />
+    <None Remove="Files\ORDERDETAILS.csv" />
     <None Remove="Files\ORDERS.csv" />
     <None Remove="Files\PAYMENTS.csv" />
     <None Remove="Files\EMPLOYEES.csv" />
     <None Remove="Files\OFFICES.csv" />
     <None Remove="Files\PAYMENTS.csv" />
+    <None Remove="Files\PRODUCTLINES.csv" />
+    <None Remove="Files\PRODUCTS.csv" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,6 +37,9 @@
 
   <ItemGroup>
     <Content Include="Files\CUSTOMERS.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\ORDERDETAILS.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Files\ORDERS.csv">
@@ -52,6 +58,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Files\PAYMENTS.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\PRODUCTLINES.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\PRODUCTS.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

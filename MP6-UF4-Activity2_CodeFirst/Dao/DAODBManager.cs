@@ -431,6 +431,57 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
             return done;
         }
         
+        public bool ImportOrderDetails()
+        {
+            bool done = false;
+            try
+            {
+                using (TextFieldParser parser = new TextFieldParser(IDAODBManager.ORDERDETAILS_FILE_PATH))
+                {
+                    parser.TextFieldType = FieldType.Delimited;
+                    parser.SetDelimiters(",");
+                    parser.HasFieldsEnclosedInQuotes = true;
 
+                    string[] fields = parser.ReadFields();
+
+                    while (!parser.EndOfData)
+                    {
+                        fields = parser.ReadFields();
+
+                        int orderNumber = Convert.ToInt32(fields[0]);
+                        string productCode = fields[1];
+                        int qtyOrdered = Convert.ToInt32(fields[2]);
+                        decimal priceEach = Convert.ToDecimal(fields[3]);
+                        short orderLineNumber = Convert.ToInt16(fields[4]);
+
+                        var newOrderDetails = new OrderDetails()
+                        {
+                            OrderNumber = orderNumber,
+                            ProductCode = productCode,
+                            QuantityOrdered = qtyOrdered,
+                            PriceEach = priceEach,
+                            OrderLineNumber = orderLineNumber
+                        };
+
+                        companyDBContext.OrderDetails.Add(newOrderDetails);
+                        try
+                        {
+                            companyDBContext.SaveChanges();
+                        }
+                        catch (Exception exc)
+                        {
+                            companyDBContext.Remove(newOrderDetails);
+                            Console.WriteLine(exc.Message);
+                        }
+                    }
+                }
+                done = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return done;
+        }
     }
 }

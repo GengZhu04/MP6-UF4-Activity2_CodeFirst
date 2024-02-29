@@ -35,6 +35,9 @@ namespace MP6_UF4_Activity2_CodeFirst.View
             //daoManager.ImportCustomers();
             //daoManager.ImportPayments();
             //daoManager.ImportOrders();
+            //daoManager.ImportProductLines();
+            //daoManager.ImportProducts();
+            daoManager.ImportOrderDetails();
         }
     }
 }

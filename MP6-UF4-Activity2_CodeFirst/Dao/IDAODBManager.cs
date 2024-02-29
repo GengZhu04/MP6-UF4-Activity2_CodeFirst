@@ -16,6 +16,7 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
         public const string ORDERS_FILE_PATH = "./Files/ORDERS.csv";
         public const string PRODUCTLINES_FILE_PATH = "./Files/PRODUCTLINES.csv";
         public const string PRODUCTS_FILE_PATH = "./Files/PRODUCTS.csv";
+        public const string ORDERDETAILS_FILE_PATH = "./Files/ORDERDETAILS.csv";
 
         // Importations
         public bool ImportPayments();
@@ -25,5 +26,6 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
         public bool ImportOrders();
         public bool ImportProductLines();
         public bool ImportProducts();
+        public bool ImportOrderDetails();
     }
 }

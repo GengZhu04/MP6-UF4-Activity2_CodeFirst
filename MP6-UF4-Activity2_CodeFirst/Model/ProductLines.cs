@@ -23,5 +23,7 @@ namespace MP6_UF4_Activity2_CodeFirst.Model
 
         [Column(TypeName = "MEDIUMBLOB")]
         public byte[]? Imatge { get; set; }
+
+        public ICollection<Products> Products { get; set; }
     }
 }

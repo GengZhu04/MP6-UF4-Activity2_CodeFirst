@@ -29,19 +29,33 @@ namespace MP6_UF4_Activity2_CodeFirst.View
             InitializeComponent();
 
             daoManager = DAODBManagerFactory.CreateDAODBManager(companyDBContext);
-
-            //daoManager.ImportOffices();
-            //daoManager.ImportEmployees();
-            //daoManager.ImportCustomers();
-            //daoManager.ImportPayments();
-            //daoManager.ImportOrders();
-            //daoManager.ImportProductLines();
-            //daoManager.ImportProducts();
-            //daoManager.ImportOrderDetails();
-
+            //GetImports();
             Get();
         }
 
+
+        private bool GetImports()
+        {
+            bool done = false;
+            try
+            {
+                daoManager.ImportOffices();
+                daoManager.ImportEmployees();
+                daoManager.ImportCustomers();
+                daoManager.ImportPayments();
+                daoManager.ImportOrders();
+                daoManager.ImportProductLines();
+                daoManager.ImportProducts();
+                daoManager.ImportOrderDetails();
+                done = true;
+            }
+            catch (Exception ex) 
+            {
+                MessageBox.Show(ex.Message, "Error In Import", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            return done;
+
+        }
         private async void Get()
         {
             //va
@@ -55,6 +69,5 @@ namespace MP6_UF4_Activity2_CodeFirst.View
             //peta
             //gridData.ItemsSource = await daoManager.GetCustomerInfo();
             gridData.ItemsSource = await daoManager.GetEmployeesOfficesInfo();
-        }
     }
 }

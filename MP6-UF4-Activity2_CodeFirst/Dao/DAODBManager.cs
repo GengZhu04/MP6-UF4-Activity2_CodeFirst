@@ -1,5 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.VisualBasic.FileIO;
 using MP6_UF4_Activity2_CodeFirst.Model;
 using System;
@@ -8,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace MP6_UF4_Activity2_CodeFirst.Dao
 {
@@ -483,5 +485,59 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
             }
             return done;
         }
+
+
+        //va
+        public async Task<ICollection<Orders>> GetOrdersWithDetails()
+        {
+            return await companyDBContext.Orders
+                .Include(o => o.OrderDetails)
+                .ToListAsync();
+        }
+        
+        
+        //va
+        public async Task<ICollection<Orders>> GetShippedOrders()
+        {
+            return await companyDBContext.Orders
+                .Where(o => o.Status == "Shipped" && o.ShippedDate > new DateTime(2005, 1, 10))
+                .ToListAsync();
+        }
+
+        //va
+        public async Task<ICollection<Products>> GetProductsByScale()
+        {
+            return await companyDBContext.Products
+                .Where(p => p.ProductScale == "1:10")
+                .OrderBy(p => p.ProductCode)
+                .ToListAsync();
+        }
+
+        //peta
+        public async Task<ICollection<KeyValuePair<Customers, Payments>>> GetCustomerInfo()
+        {
+            return (ICollection<KeyValuePair<Customers, Payments>>)await companyDBContext.Customers
+                    .Include(c => c.Payments)
+                    .Select(c => new KeyValuePair<Customers, ICollection<Payments>>(c, c.Payments))
+                    .ToListAsync();       
+        }
+        // peta
+        public async Task<ICollection<Object>> GetNumOrdersPerCustomer()
+        {
+            return await companyDBContext.Orders
+                .Join(companyDBContext.Customers,
+                    order => order.CustomerNumberId,
+                    customer => customer.CustomerNumber,
+                    (order, customer) => new
+                    {
+                        CustomerName = customer.CustomerName,
+                        OrderNumber = order.Sum(x => x.NumOrders)
+                    }
+                    ).GroupBy(
+                    x => x.CustomerName
+                    ).ToListAsync();
+        }
+
+
     }
 }

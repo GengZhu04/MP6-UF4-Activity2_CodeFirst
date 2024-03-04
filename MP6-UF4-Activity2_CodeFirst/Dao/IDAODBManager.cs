@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MP6_UF4_Activity2_CodeFirst.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,5 +28,16 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
         public bool ImportProductLines();
         public bool ImportProducts();
         public bool ImportOrderDetails();
+
+
+        public Task<ICollection<Orders>> GetOrdersWithDetails();
+
+        public Task<ICollection<Orders>> GetShippedOrders();
+
+        public Task<ICollection<Object>> GetNumOrdersPerCustomer();
+
+        public Task<ICollection<Products>> GetProductsByScale();
+
+        public Task<ICollection<KeyValuePair<Customers, Payments>>> GetCustomerInfo();
     }
 }

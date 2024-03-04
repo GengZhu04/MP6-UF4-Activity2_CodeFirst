@@ -37,7 +37,23 @@ namespace MP6_UF4_Activity2_CodeFirst.View
             //daoManager.ImportOrders();
             //daoManager.ImportProductLines();
             //daoManager.ImportProducts();
-            daoManager.ImportOrderDetails();
+            //daoManager.ImportOrderDetails();
+
+            Get();
+        }
+
+        private async void Get()
+        {
+            //va
+            //gridData.ItemsSource = await daoManager.GetOrdersWithDetails();
+            //va
+            //gridData.ItemsSource = await daoManager.GetShippedOrders();
+            //peta
+            gridData.ItemsSource = await daoManager.GetNumOrdersPerCustomer();
+            //va
+            //gridData.ItemsSource = await daoManager.GetProductsByScale();
+            //peta
+            //gridData.ItemsSource = await daoManager.GetCustomerInfo();
         }
     }
 }

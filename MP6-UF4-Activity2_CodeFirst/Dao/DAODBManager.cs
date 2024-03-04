@@ -1,5 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.VisualBasic.FileIO;
 using MP6_UF4_Activity2_CodeFirst.Model;
 using System;
@@ -8,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace MP6_UF4_Activity2_CodeFirst.Dao
 {
@@ -489,6 +491,27 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
         #endregion
 
         #region Functions
+        
+        public async Task<List<Orders>> GetOrdersWithDetails()
+        {
+            return await companyDBContext.Orders
+                .OrderBy(o => o.OrderDetails)
+                .ToListAsync();
+        }
+        
+        public async Task<List<Orders>> GetShippedOrders()
+        {
+            return await companyDBContext.Orders
+                .Where(o => o.Status == "Shipped" && o.ShippedDate > new DateTime(2005, 1, 10))
+                .ToListAsync();
+        }
+        public async Task<List<Products>> GetProductsByScale()
+        {
+            return await companyDBContext.Products
+                .Where(p => p.ProductScale == "1:10")
+                .OrderBy(p => p.ProductCode)
+                .ToListAsync();
+        }
 
         public async Task<ICollection<Object>> GetProductsLines()
         {

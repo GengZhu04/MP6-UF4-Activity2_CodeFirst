@@ -33,9 +33,19 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
         public bool ImportProducts();
         public bool ImportOrderDetails();
 
+
         #endregion
 
         #region Functions
+  
+        public Task<List<Orders>> GetOrdersWithDetails();
+
+        public Task<List<Orders>> GetShippedOrders();
+
+        public Task<List<Products>> GetProductsByScale();
+
+        
+        public Task<ICollection<Object>> GetEmployeesOfficesInfo();
 
         public Task<ICollection<Object>> GetProductsLines();
 

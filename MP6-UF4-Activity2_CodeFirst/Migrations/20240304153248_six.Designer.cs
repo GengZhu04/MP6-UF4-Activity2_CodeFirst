@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MP6_UF4_Activity2_CodeFirst.Migrations
 {
     [DbContext(typeof(CompanyDBContext))]
-    [Migration("20240226181358_ten")]
-    partial class ten
+    [Migration("20240304153248_six")]
+    partial class six
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -213,7 +213,7 @@ namespace MP6_UF4_Activity2_CodeFirst.Migrations
                         .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<int>("CustomerNumberId")
+                    b.Property<int?>("CustomerNumberId")
                         .HasColumnType("INT(11)");
 
                     b.Property<DateTime>("OrderData")
@@ -268,7 +268,6 @@ namespace MP6_UF4_Activity2_CodeFirst.Migrations
                         .HasColumnType("MEDIUMTEXT");
 
                     b.Property<byte[]>("Imatge")
-                        .IsRequired()
                         .HasColumnType("MEDIUMBLOB");
 
                     b.Property<string>("TextDescription")
@@ -297,8 +296,9 @@ namespace MP6_UF4_Activity2_CodeFirst.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ProductLines")
-                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4");
+                    b.Property<string>("ProductLineId")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(50)");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
@@ -320,7 +320,7 @@ namespace MP6_UF4_Activity2_CodeFirst.Migrations
 
                     b.HasKey("ProductCode");
 
-                    b.HasIndex("ProductLines");
+                    b.HasIndex("ProductLineId");
 
                     b.ToTable("Products");
                 });
@@ -364,9 +364,7 @@ namespace MP6_UF4_Activity2_CodeFirst.Migrations
                 {
                     b.HasOne("MP6_UF4_Activity2_CodeFirst.Model.Customers", "Customer")
                         .WithMany("Orders")
-                        .HasForeignKey("CustomerNumberId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CustomerNumberId");
                 });
 
             modelBuilder.Entity("MP6_UF4_Activity2_CodeFirst.Model.Payments", b =>
@@ -381,8 +379,10 @@ namespace MP6_UF4_Activity2_CodeFirst.Migrations
             modelBuilder.Entity("MP6_UF4_Activity2_CodeFirst.Model.Products", b =>
                 {
                     b.HasOne("MP6_UF4_Activity2_CodeFirst.Model.ProductLines", "ProductLine")
-                        .WithMany()
-                        .HasForeignKey("ProductLines");
+                        .WithMany("Products")
+                        .HasForeignKey("ProductLineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

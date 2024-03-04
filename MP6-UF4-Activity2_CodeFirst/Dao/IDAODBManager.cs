@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MP6_UF4_Activity2_CodeFirst.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,8 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
 {
     public interface IDAODBManager
     {
-        // Constant
+        #region Constant
+        
         public const string CUSTOMER_FILE_PATH = "./Files/CUSTOMERS.csv";
         public const string PAYMENTS_FILE_PATH = "./Files/PAYMENTS.csv";
         public const string EMPLOYEES_FILE_PATH = "./Files/EMPLOYEES.csv";
@@ -18,7 +20,10 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
         public const string PRODUCTS_FILE_PATH = "./Files/PRODUCTS.csv";
         public const string ORDERDETAILS_FILE_PATH = "./Files/ORDERDETAILS.csv";
 
-        // Importations
+        #endregion
+
+        #region Importations
+
         public bool ImportPayments();
         public bool ImportCustomers();
         public bool ImportEmployees();
@@ -27,5 +32,13 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
         public bool ImportProductLines();
         public bool ImportProducts();
         public bool ImportOrderDetails();
+
+        #endregion
+
+        #region Functions
+
+        public Task<ICollection<Object>> GetProductsLines();
+
+        #endregion
     }
 }

@@ -377,7 +377,7 @@ namespace MP6_UF4_Activity2_CodeFirst.Migrations
             modelBuilder.Entity("MP6_UF4_Activity2_CodeFirst.Model.Products", b =>
                 {
                     b.HasOne("MP6_UF4_Activity2_CodeFirst.Model.ProductLines", "ProductLine")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("ProductLineId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

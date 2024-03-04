@@ -13,6 +13,28 @@
     <Compile Remove="Migrations\20240222152010_six.Designer.cs" />
     <Compile Remove="Migrations\20240222152356_six.cs" />
     <Compile Remove="Migrations\20240222152356_six.Designer.cs" />
+    <Compile Remove="Migrations\20240222153245_six.cs" />
+    <Compile Remove="Migrations\20240222153245_six.Designer.cs" />
+    <Compile Remove="Migrations\20240226173706_seven.cs" />
+    <Compile Remove="Migrations\20240226173706_seven.Designer.cs" />
+    <Compile Remove="Migrations\20240226174946_eight.cs" />
+    <Compile Remove="Migrations\20240226174946_eight.Designer.cs" />
+    <Compile Remove="Migrations\20240226180056_nine.cs" />
+    <Compile Remove="Migrations\20240226180056_nine.Designer.cs" />
+    <Compile Remove="Migrations\20240226181358_ten.cs" />
+    <Compile Remove="Migrations\20240226181358_ten.Designer.cs" />
+    <Compile Remove="Migrations\20240226193257_eleven.cs" />
+    <Compile Remove="Migrations\20240226193257_eleven.Designer.cs" />
+    <Compile Remove="Migrations\20240226194717_twelve.cs" />
+    <Compile Remove="Migrations\20240226194717_twelve.Designer.cs" />
+    <Compile Remove="Migrations\20240304151045_thirty.cs" />
+    <Compile Remove="Migrations\20240304151045_thirty.Designer.cs" />
+    <Compile Remove="Migrations\20240304151445_thirty.cs" />
+    <Compile Remove="Migrations\20240304151445_thirty.Designer.cs" />
+    <Compile Remove="Migrations\20240304152030_thirty.cs" />
+    <Compile Remove="Migrations\20240304152030_thirty.Designer.cs" />
+    <Compile Remove="Migrations\20240304153128_five-thirty.cs" />
+    <Compile Remove="Migrations\20240304153128_five-thirty.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -49,11 +49,12 @@ namespace MP6_UF4_Activity2_CodeFirst.View
             //va
             //gridData.ItemsSource = await daoManager.GetShippedOrders();
             //peta
-            gridData.ItemsSource = await daoManager.GetNumOrdersPerCustomer();
+            //gridData.ItemsSource = await daoManager.GetNumOrdersPerCustomer();
             //va
             //gridData.ItemsSource = await daoManager.GetProductsByScale();
             //peta
             //gridData.ItemsSource = await daoManager.GetCustomerInfo();
+            gridData.ItemsSource = await daoManager.GetEmployeesOfficesInfo();
         }
     }
 }

@@ -30,14 +30,13 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
         public bool ImportOrderDetails();
 
 
-        public Task<ICollection<Orders>> GetOrdersWithDetails();
+        public Task<List<Orders>> GetOrdersWithDetails();
 
-        public Task<ICollection<Orders>> GetShippedOrders();
+        public Task<List<Orders>> GetShippedOrders();
 
-        public Task<ICollection<Object>> GetNumOrdersPerCustomer();
+        public Task<List<Products>> GetProductsByScale();
 
-        public Task<ICollection<Products>> GetProductsByScale();
-
-        public Task<ICollection<KeyValuePair<Customers, Payments>>> GetCustomerInfo();
+        
+        public Task<ICollection<Object>> GetEmployeesOfficesInfo();
     }
 }

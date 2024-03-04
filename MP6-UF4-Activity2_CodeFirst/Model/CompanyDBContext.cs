@@ -67,6 +67,11 @@ namespace MP6_UF4_Activity2_CodeFirst.Model
                 .HasOne(oD => oD.Product)
                 .WithMany(p => p.OrderDetails)
                 .HasForeignKey(oD => oD.ProductCode);
+            // Product N - 1 ProductLines
+            modelBuilder.Entity<Products>()
+                .HasOne(p => p.ProductLine)
+                .WithMany(pl => pl.Products)
+                .HasForeignKey(p => p.ProductLineId);
         }
     }
 }

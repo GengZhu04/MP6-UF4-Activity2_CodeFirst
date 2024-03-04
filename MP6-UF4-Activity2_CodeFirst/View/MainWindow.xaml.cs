@@ -29,15 +29,29 @@ namespace MP6_UF4_Activity2_CodeFirst.View
             InitializeComponent();
 
             daoManager = DAODBManagerFactory.CreateDAODBManager(companyDBContext);
+            //GetImports();
+        }
 
-            //daoManager.ImportOffices();
-            //daoManager.ImportEmployees();
-            //daoManager.ImportCustomers();
-            //daoManager.ImportPayments();
-            //daoManager.ImportOrders();
-            //daoManager.ImportProductLines();
-            //daoManager.ImportProducts();
-            daoManager.ImportOrderDetails();
+        private bool GetImports()
+        {
+            bool done = false;
+            try
+            {
+                daoManager.ImportOffices();
+                daoManager.ImportEmployees();
+                daoManager.ImportCustomers();
+                daoManager.ImportPayments();
+                daoManager.ImportOrders();
+                daoManager.ImportProductLines();
+                daoManager.ImportProducts();
+                daoManager.ImportOrderDetails();
+                done = true;
+            }
+            catch (Exception ex) 
+            {
+                MessageBox.Show(ex.Message, "Error In Import", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            return done;
         }
     }
 }

@@ -20,6 +20,8 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
             this.companyDBContext = companyDBContext;
         }
 
+        #region Imports
+
         public bool ImportCustomers()
         {
             bool done = false;
@@ -483,5 +485,30 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
             }
             return done;
         }
+
+        #endregion
+
+        #region Functions
+
+        public async Task<ICollection<Object>> GetProductsLines()
+        {
+            var productLines = companyDBContext.ProductLines
+                .Join(companyDBContext.Products,
+                pL => pL.ProductLine,
+                p => p.ProductLineId,
+                (productLine, product) => new
+                {
+                    ProductName = product.ProductName,
+                    ProdictDescription = product.ProductDescription,
+                    QuantityStock = product.QuantityInStock,
+                    BuyPrice = product.BuyPrice,
+                    TextDescription = productLine.TextDescription,
+                    ProductVendor = product.ProductVendor
+                })
+                .ToList();
+            return (ICollection<object>)productLines;
+        }
+
+        #endregion
     }
 }

@@ -30,6 +30,7 @@ namespace MP6_UF4_Activity2_CodeFirst.Model
         public virtual DbSet<Products> Products { get; set; }
         public virtual DbSet<OrderDetails> OrderDetails { get; set; }
         public virtual DbSet<Orders> Orders { get; set; }
+        public virtual DbSet<SpecialPriceList> SpecialPriceList { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -72,6 +73,17 @@ namespace MP6_UF4_Activity2_CodeFirst.Model
                 .HasOne(p => p.ProductLine)
                 .WithMany(pl => pl.Products)
                 .HasForeignKey(p => p.ProductLineId);
+            // Product N - M Customers Generates SpecialPriceList
+            modelBuilder.Entity<SpecialPriceList>()
+                .HasKey(sPL => new { sPL.CustomerNumber, sPL.ProductCode });
+            modelBuilder.Entity<SpecialPriceList>()
+                .HasOne(sPL => sPL.Product)
+                .WithMany(p => p.SpecialPricesList)
+                .HasForeignKey(sPL => sPL.ProductCode);
+            modelBuilder.Entity<SpecialPriceList>()
+                .HasOne(sPL => sPL.Customer)
+                .WithMany(c => c.SpecialPricesList)
+                .HasForeignKey(sPL => sPL.CustomerNumber);
         }
     }
 }

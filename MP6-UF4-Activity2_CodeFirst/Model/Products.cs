@@ -43,5 +43,7 @@ namespace MP6_UF4_Activity2_CodeFirst.Model
         public decimal MSRP { get; set; }
 
         public ICollection<OrderDetails> OrderDetails { get; set; }
+
+        public ICollection<SpecialPriceList> SpecialPricesList { get; set; }
     }
 }

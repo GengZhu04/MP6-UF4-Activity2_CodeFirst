@@ -55,5 +55,7 @@ namespace MP6_UF4_Activity2_CodeFirst.Model
         public ICollection<Payments> Payments { get; set; }
 
         public ICollection<Orders> Orders { get; set; }
+
+        public ICollection<SpecialPriceList> SpecialPricesList { get; set; }
     }
 }

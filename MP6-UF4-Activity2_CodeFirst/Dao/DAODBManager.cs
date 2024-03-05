@@ -490,25 +490,29 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
 
         #endregion
 
-        #region Functions
+        #region Queries
         
-        public async Task<List<Orders>> GetOrdersWithDetails()
+        // Get Orders And Ordered By Date
+        public async Task<List<Orders>> GetOrdersOrderedByDate()
         {
             return await companyDBContext.Orders
-                .OrderBy(o => o.OrderDetails)
+                .OrderBy(o => o.OrderData)
+                .ToListAsync();
+        }
+
+        // Get Orders Where Status is Shipped And The Date is Recent Than Value Passed
+        public async Task<List<Orders>> GetShippedOrdersRecentThan(DateTime date)
+        {
+            return await companyDBContext.Orders
+                .Where(o => o.Status == "Shipped" && o.ShippedDate > date)
                 .ToListAsync();
         }
         
-        public async Task<List<Orders>> GetShippedOrders()
-        {
-            return await companyDBContext.Orders
-                .Where(o => o.Status == "Shipped" && o.ShippedDate > new DateTime(2005, 1, 10))
-                .ToListAsync();
-        }
-        public async Task<List<Products>> GetProductsByScale()
+        // Get Product By Scale Passed And Ordered By Product Code
+        public async Task<List<Products>> GetProductsByScale(string scale)
         {
             return await companyDBContext.Products
-                .Where(p => p.ProductScale == "1:10")
+                .Where(p => p.ProductScale == scale)
                 .OrderBy(p => p.ProductCode)
                 .ToListAsync();
         }
@@ -590,6 +594,42 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
                 .ToListAsync();
             return await officeInfo;
         }
+
+        // Join Office To Employees And Get Some Atributes And Ordered By First Name ASC
+        public async Task<ICollection<Object>> GetEmployeesOfficesInfo()
+        {
+            var employeesOffices = companyDBContext.Employees
+                .Join(companyDBContext.Offices,
+                    emplo => emplo.OfficeCode,
+                    office => office.OfficeCode,
+                    (emplo, office) => new {
+                        OfficeCode = office.OfficeCode,
+                        FirstName = emplo.FirstName,
+                        LastName = emplo.LastName,
+                        City = office.City,
+                        Phone = office.Phone,
+                        Addres = office.AddressLine1,
+                        Postal = office.PostalCode
+                    })
+                .OrderBy(e => e.FirstName)
+                .ToArray();
+
+            return employeesOffices;
+        }
+
+        // Count Products For A ProductLine
+        public async Task<int> CountProductsWithProductLine(string productLine)
+        {
+            var totalProducts = companyDBContext.ProductLines
+                .Where(pL => pL.ProductLine == productLine)
+                .SelectMany(pL => pL.Products)
+                .CountAsync();
+            return await totalProducts;
+        }
+
+        #endregion
+
+        #region CRUD Employee
 
         public async Task<bool> DeleteEmployee(int id)
         {
@@ -698,32 +738,17 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
             return done;
         }
 
-        public async Task<List<object>> GetEmployeesOfficesInfo()
-        {
-            var employeesOffices = await companyDBContext.Employees
-                .Join(companyDBContext.Offices,
-                    emplo => emplo.OfficeCode,
-                    office => office.OfficeCode,
-                    (emplo, office) => new {
-                        OfficeCode = office.OfficeCode,
-                        EmplF = emplo.FirstName,
-                        EmplL = emplo.LastName,
-                        City = office.City,
-                        Phone = office.Phone,
-                        Addres = office.AddressLine1,
-                        Postal = office.PostalCode
-                    })
-                    .ToListAsync();
 
-            return employeesOffices.Cast<object>().ToList();
-        }
+        #endregion
+
+        #region Insert Special Price List
 
         public bool InsertSpecialPrice(Customers customer, Products product, decimal specialPrice)
         {
             bool done = false;
             try
             {
-                SpecialPriceList specialPriceList = new SpecialPriceList() 
+                SpecialPriceList specialPriceList = new SpecialPriceList()
                 {
                     ProductCode = product.ProductCode,
                     CustomerNumber = customer.CustomerNumber,
@@ -739,6 +764,7 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
             }
             return done;
         }
+
 
         #endregion
     }

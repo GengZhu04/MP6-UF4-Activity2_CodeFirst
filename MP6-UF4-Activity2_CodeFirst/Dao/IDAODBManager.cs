@@ -38,11 +38,11 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
 
         #region Functions
   
-        public Task<List<Orders>> GetOrdersWithDetails();
+        public Task<List<Orders>> GetOrdersOrderedByDate();
 
-        public Task<List<Orders>> GetShippedOrders();
+        public Task<List<Orders>> GetShippedOrdersRecentThan(DateTime date);
 
-        public Task<List<Products>> GetProductsByScale();
+        public Task<List<Products>> GetProductsByScale(string scale);
 
         public Task<ICollection<Object>> GetProductsLinesWithProducts();
 
@@ -56,12 +56,19 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
 
         public Task<ICollection<Offices>> GetAllOfficeInfo();
 
-        public Task<List<object>> GetEmployeesOfficesInfo();
+        public Task<ICollection<Object>> GetEmployeesOfficesInfo();
 
         public Task<bool> DeleteEmployee(int id);
 
         public Task<bool> UpdateEmployee(int employeeNumber, string employeesName, string employeesLastName, string extent, int? reportTo, string officeCode, string email, string job);
+        
         public Task<bool> AddEmployee(string employeesName, string employeesLastName, int? reportTo, string officeCode, string job);
+
+        public Task<int> CountProductsWithProductLine(string productLine);
+
+        #endregion
+
+        #region PART 4
 
         public bool InsertSpecialPrice(Customers customer, Products product, decimal specialPrice);
 

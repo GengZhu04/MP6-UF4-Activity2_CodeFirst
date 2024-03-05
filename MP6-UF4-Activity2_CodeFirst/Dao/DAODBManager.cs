@@ -591,6 +591,133 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
             return await officeInfo;
         }
 
+        public async Task<bool> DeleteEmployee(int id)
+        {
+            bool done = false;
+            try
+            {
+
+                var emplDelete = companyDBContext.Employees.FirstOrDefault(e => e.EmployeeNumber == id);
+                if (emplDelete != null)
+                {
+                    companyDBContext.Employees.Remove(emplDelete);
+                    await companyDBContext.SaveChangesAsync();
+                    done = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            return done;
+        }
+
+        public async Task<bool> UpdateEmployee(int employeeNumber, string employeesName, string employeesLastName, string extent, int? reportTo, string officeCode, string email, string job)
+        {
+            bool done = false;
+            try
+            {
+                Random random = new Random();
+
+                var maxIdEmpl = companyDBContext.Employees
+                    .OrderByDescending(e => e.EmployeeNumber)
+                    .Select(e => e.EmployeeNumber)
+                    .FirstOrDefault();
+
+                var emplUpdate = companyDBContext.Employees.FirstOrDefault(e => e.EmployeeNumber == employeeNumber);
+                if (emplUpdate != null)
+                {
+
+                    emplUpdate.FirstName = employeesName;
+
+                    emplUpdate.LastName = employeesLastName;
+
+                    emplUpdate.Extension = extent;
+
+                    emplUpdate.ReportsTo = reportTo;
+
+                    emplUpdate.OfficeCode = officeCode;
+
+                    emplUpdate.Email = email;
+
+                    emplUpdate.JobTitle = job;
+
+                    companyDBContext.Employees.Update(emplUpdate);
+                    await companyDBContext.SaveChangesAsync();
+                    done = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            return done;
+        }
+
+        public async Task<bool> AddEmployee(string employeesName, string employeesLastName, int? reportTo, string officeCode, string job)
+        {
+            bool done = false;
+            try
+            {
+                Random random = new Random();
+
+                var maxIdEmpl = companyDBContext.Employees
+                    .OrderByDescending(e => e.EmployeeNumber)
+                    .Select(e => e.EmployeeNumber)
+                    .FirstOrDefault();
+
+
+                if (reportTo > maxIdEmpl)
+                {
+                    reportTo = random.Next(0, maxIdEmpl);
+                }
+
+                var newEmployee = new Employees
+                {
+                    EmployeeNumber = maxIdEmpl + 1,
+                    LastName = employeesName,
+                    FirstName = employeesLastName,
+                    Extension = Convert.ToString("x" + random.Next(0, 10000)),
+                    ReportsTo = reportTo,
+                    Email = $"{employeesName}{employeesLastName}@example.com",
+                    OfficeCode = officeCode,
+                    JobTitle = job
+                };
+
+                companyDBContext.Employees.Add(newEmployee);
+                await companyDBContext.SaveChangesAsync();
+                done = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            return done;
+        }
+
+        public async Task<List<object>> GetEmployeesOfficesInfo()
+        {
+            var employeesOffices = await companyDBContext.Employees
+                .Join(companyDBContext.Offices,
+                    emplo => emplo.OfficeCode,
+                    office => office.OfficeCode,
+                    (emplo, office) => new {
+                        OfficeCode = office.OfficeCode,
+                        EmplF = emplo.FirstName,
+                        EmplL = emplo.LastName,
+                        City = office.City,
+                        Phone = office.Phone,
+                        Addres = office.AddressLine1,
+                        Postal = office.PostalCode
+                    })
+                    .ToListAsync();
+
+            return employeesOffices.Cast<object>().ToList();
+        }
+
         public bool InsertSpecialPrice(Customers customer, Products product, decimal specialPrice)
         {
             bool done = false;

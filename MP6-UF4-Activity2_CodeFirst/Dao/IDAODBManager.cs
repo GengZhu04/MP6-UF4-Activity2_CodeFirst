@@ -56,6 +56,13 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
 
         public Task<ICollection<Offices>> GetAllOfficeInfo();
 
+        public Task<List<object>> GetEmployeesOfficesInfo();
+
+        public Task<bool> DeleteEmployee(int id);
+
+        public Task<bool> UpdateEmployee(int employeeNumber, string employeesName, string employeesLastName, string extent, int? reportTo, string officeCode, string email, string job);
+        public Task<bool> AddEmployee(string employeesName, string employeesLastName, int? reportTo, string officeCode, string job);
+
         public bool InsertSpecialPrice(Customers customer, Products product, decimal specialPrice);
 
         #endregion

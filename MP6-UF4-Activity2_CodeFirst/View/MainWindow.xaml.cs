@@ -58,16 +58,19 @@ namespace MP6_UF4_Activity2_CodeFirst.View
         }
         private async void Get()
         {
-            //va
             //gridData.ItemsSource = await daoManager.GetOrdersWithDetails();
-            //va
+
             //gridData.ItemsSource = await daoManager.GetShippedOrders();
-            //peta
-            //gridData.ItemsSource = await daoManager.GetNumOrdersPerCustomer();
-            //va
+
             //gridData.ItemsSource = await daoManager.GetProductsByScale();
-            //peta
-            //gridData.ItemsSource = await daoManager.GetCustomerInfo();
-            gridData.ItemsSource = await daoManager.GetEmployeesOfficesInfo();
+
+            //gridData.ItemsSource = await daoManager.GetProductsLinesWithProducts();
+
+            //gridData.ItemsSource = await daoManager.GetInfoProductsOrders(141);
+
+            //gridData.ItemsSource = await daoManager.GetCustomersWithFirstNameChar('A');
+
+            //gridData.ItemsSource = await daoManager.GetListPaymentsDate();
+        }
     }
 }

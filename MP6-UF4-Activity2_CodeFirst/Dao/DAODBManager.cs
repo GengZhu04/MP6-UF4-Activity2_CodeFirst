@@ -591,6 +591,28 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
             return await officeInfo;
         }
 
+        public bool InsertSpecialPrice(Customers customer, Products product, decimal specialPrice)
+        {
+            bool done = false;
+            try
+            {
+                SpecialPriceList specialPriceList = new SpecialPriceList() 
+                {
+                    ProductCode = product.ProductCode,
+                    CustomerNumber = customer.CustomerNumber,
+                    SpecialPrice = specialPrice
+                };
+                companyDBContext.SpecialPriceList.Add(specialPriceList);
+                companyDBContext.SaveChanges();
+                done = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return done;
+        }
+
         #endregion
     }
 }

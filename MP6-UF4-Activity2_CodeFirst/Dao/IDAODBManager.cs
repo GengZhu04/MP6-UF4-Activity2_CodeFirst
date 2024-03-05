@@ -56,6 +56,8 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
 
         public Task<ICollection<Offices>> GetAllOfficeInfo();
 
+        public bool InsertSpecialPrice(Customers customer, Products product, decimal specialPrice);
+
         #endregion
     }
 }

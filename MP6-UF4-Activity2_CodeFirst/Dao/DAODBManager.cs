@@ -513,7 +513,8 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
                 .ToListAsync();
         }
 
-        public async Task<ICollection<Object>> GetProductsLines()
+        // Join ProductLines with Products and order ascending with ProductVendor
+        public async Task<ICollection<Object>> GetProductsLinesWithProducts()
         {
             var productLines = companyDBContext.ProductLines
                 .Join(companyDBContext.Products,
@@ -528,8 +529,54 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
                     TextDescription = productLine.TextDescription,
                     ProductVendor = product.ProductVendor
                 })
-                .ToList();
-            return (ICollection<object>)productLines;
+                .OrderBy(pL => pL.ProductVendor)
+                .ToArray();
+            return productLines;
+        }
+
+        // Join orders with order details with product where customer id  order descending with date
+        public async Task<ICollection<Orders>> GetInfoProductsOrders(int customerId)
+        {
+            var orderDetails = companyDBContext.Orders
+                .Where(o => o.CustomerNumberId == customerId)
+                .Include(o => o.OrderDetails)
+                .ThenInclude(oD => oD.Product)
+                .OrderByDescending(o => o.OrderData)
+                .ToListAsync();
+            return await orderDetails;
+        }
+
+        // Count Total Customers By Employee
+        public async Task<int> CountCustomersByEmployee(int employeeId)
+        {
+            var totalCustomers = companyDBContext.Employees
+                .Where(e => e.EmployeeNumber == employeeId)
+                .SelectMany(e => e.Customers)
+                .CountAsync();
+            return await totalCustomers;
+        }
+
+        // Get Customers By the firstname character
+        public async Task<ICollection<Customers>> GetCustomersWithFirstNameChar(char firstChar)
+        {
+            var customers = companyDBContext.Customers
+                .Where(e => e.ContactFirstName.StartsWith(firstChar.ToString()))
+                .ToListAsync();
+            return await customers;
+        }
+
+        // Get List Count For All DatePayment
+        public async Task<ICollection<Object>> GetListPaymentsDate()
+        {
+            var listCountPayments = companyDBContext.Payments
+                .GroupBy(p => p.PaymentDate)
+                .Select(group => new
+                {
+                    PaymentDate = group.Key,
+                    CountPayments = group.Count()
+                })
+                .ToArray();
+            return listCountPayments;
         }
 
         #endregion

@@ -44,10 +44,15 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
 
         public Task<List<Products>> GetProductsByScale();
 
-        
-        public Task<ICollection<Object>> GetEmployeesOfficesInfo();
+        public Task<ICollection<Object>> GetProductsLinesWithProducts();
 
-        public Task<ICollection<Object>> GetProductsLines();
+        public Task<ICollection<Orders>> GetInfoProductsOrders(int customerId);
+
+        public Task<int> CountCustomersByEmployee(int employeeId);
+
+        public Task<ICollection<Customers>> GetCustomersWithFirstNameChar(char  firstChar);
+
+        public Task<ICollection<Object>> GetListPaymentsDate();
 
         #endregion
     }

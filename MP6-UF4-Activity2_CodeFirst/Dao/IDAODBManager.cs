@@ -50,9 +50,11 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
 
         public Task<int> CountCustomersByEmployee(int employeeId);
 
-        public Task<ICollection<Customers>> GetCustomersWithFirstNameChar(char  firstChar);
+        public Task<ICollection<Customers>> GetCustomersWithFirstNameChar(char firstChar);
 
         public Task<ICollection<Object>> GetListPaymentsDate();
+
+        public Task<ICollection<Offices>> GetAllOfficeInfo();
 
         #endregion
     }

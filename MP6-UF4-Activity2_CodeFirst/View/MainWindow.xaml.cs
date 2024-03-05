@@ -73,6 +73,14 @@ namespace MP6_UF4_Activity2_CodeFirst.View
             //gridData.ItemsSource = await daoManager.GetListPaymentsDate();
 
             //gridData.ItemsSource = await daoManager.GetAllOfficeInfo();
+
+            //gridData.ItemsSource = await daoManager.GetEmployeesOfficesInfo();
+            //add
+            //var result = await daoManager.AddEmployee("olek2323", "pomerantsev", 1002, "1", "IT");
+            //del
+            //var result = await daoManager.DeleteEmployee(1704);
+            //update
+            //var result = await daoManager.UpdateEmployee(1703,"El Rey","Artur","x4444",null,"1","aaaaaa","aa");
         }
     }
 }

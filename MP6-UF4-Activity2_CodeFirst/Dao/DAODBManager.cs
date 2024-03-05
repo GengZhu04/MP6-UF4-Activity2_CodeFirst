@@ -579,6 +579,18 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
             return listCountPayments;
         }
 
+        // Join Office With employees With Customers With Payments And Ordered by State Ascending
+        public async Task<ICollection<Offices>> GetAllOfficeInfo()
+        {
+            var officeInfo = companyDBContext.Offices
+                .Include(o => o.Employees)
+                .ThenInclude(e => e.Customers)
+                .ThenInclude(c => c.Payments)
+                .OrderBy(o => o.State)
+                .ToListAsync();
+            return await officeInfo;
+        }
+
         #endregion
     }
 }

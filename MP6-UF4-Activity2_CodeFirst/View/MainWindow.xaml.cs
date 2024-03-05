@@ -71,6 +71,8 @@ namespace MP6_UF4_Activity2_CodeFirst.View
             //gridData.ItemsSource = await daoManager.GetCustomersWithFirstNameChar('A');
 
             //gridData.ItemsSource = await daoManager.GetListPaymentsDate();
+
+            //gridData.ItemsSource = await daoManager.GetAllOfficeInfo();
         }
     }
 }

@@ -627,47 +627,6 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
             return await totalProducts;
         }
 
-        // Get All Customer ID
-        public async Task<ICollection<Object>> GetAllCustomerID()
-        {
-            var customerIds = companyDBContext.Customers
-                .Select(c => new
-                {
-                    CustomerID = c.CustomerNumber,
-                    CustomerName = c.CustomerName
-                })
-                .ToArray();
-            return customerIds;
-        }
-
-        // Get All Employee ID
-        public async Task<ICollection<Object>> GetAllEmployeeID()
-        {
-            var employeesIds = companyDBContext.Employees
-                .Select(e => new
-                {
-                    EmployeeID = e.EmployeeNumber,
-                    EmployeeFirstName = e.FirstName,
-                    EmployeeLastName = e.LastName
-                })
-                .ToArray();
-            return employeesIds;
-        }
-
-        // Get All Product ID
-        public async Task<ICollection<Object>> GetAllProductID()
-        {
-            var productsIds = companyDBContext.Products
-                .Select(p => new
-                {
-                    ProductID = p.ProductCode,
-                    ProductName = p.ProductName,
-                    ProductPrice = p.BuyPrice
-                })
-                .ToArray();
-            return productsIds;
-        }
-
         #endregion
 
         #region CRUD Employee
@@ -806,10 +765,52 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
 
         #region Funcions Interficie
 
+        // Get All Employee
         public async Task<List<Employees>> GetAllEmployees()
         {
-            return await companyDBContext.Employees
-                .ToListAsync();
+            return companyDBContext.Employees
+                .ToList();
+        }
+
+        // Get All Customer ID
+        public async Task<ICollection<Object>> GetAllCustomerID()
+        {
+            var customerIds = companyDBContext.Customers
+                .Select(c => new
+                {
+                    CustomerID = c.CustomerNumber,
+                    CustomerName = c.CustomerName
+                })
+                .ToArray();
+            return customerIds;
+        }
+
+        // Get All Employee ID
+        public async Task<ICollection<Object>> GetAllEmployeeID()
+        {
+            var employeesIds = companyDBContext.Employees
+                .Select(e => new
+                {
+                    EmployeeID = e.EmployeeNumber,
+                    EmployeeFirstName = e.FirstName,
+                    EmployeeLastName = e.LastName
+                })
+                .ToArray();
+            return employeesIds;
+        }
+
+        // Get All Product ID
+        public async Task<ICollection<Object>> GetAllProductID()
+        {
+            var productsIds = companyDBContext.Products
+                .Select(p => new
+                {
+                    ProductID = p.ProductCode,
+                    ProductName = p.ProductName,
+                    ProductPrice = p.BuyPrice
+                })
+                .ToArray();
+            return productsIds;
         }
 
         #endregion

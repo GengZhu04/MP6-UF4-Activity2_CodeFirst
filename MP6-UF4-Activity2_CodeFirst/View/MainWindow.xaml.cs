@@ -24,6 +24,7 @@ namespace MP6_UF4_Activity2_CodeFirst.View
     {
         private CompanyDBContext companyDBContext = new CompanyDBContext();
         private IDAODBManager daoManager;
+        public const int TOTAL_INSERT_CUSTOMERS = 10;
 
         public MainWindow()
         {
@@ -31,13 +32,14 @@ namespace MP6_UF4_Activity2_CodeFirst.View
 
             daoManager = DAODBManagerFactory.CreateDAODBManager(companyDBContext);
             //GetImports();
-            Get();
+            //Get();
 
             #region LoadsDataBase Information
-            LoadGrid();
+            //LoadGrid();
             #endregion
 
-           
+            // Insert Special Price Randomly
+            //Create20RandomSpeacialPrice();
         }
         private async Task LoadGrid()
         {
@@ -265,12 +267,40 @@ namespace MP6_UF4_Activity2_CodeFirst.View
 
         #endregion
 
+        #region Part 4
 
-
-        private void Create20RandomSpeacialPrice()
+        private async void Create20RandomSpeacialPrice()
         {
+            object[] tmpCustomer = (object[])await daoManager.GetAllCustomerID();
+            List<(int CustomerID, string CustomerName)> listCustomers = tmpCustomer
+                .Select(c => ((int)c.GetType().GetProperty("CustomerID").GetValue(c),
+                              (string)c.GetType().GetProperty("CustomerName").GetValue(c)))
+                .ToList();
+            object[] tmpProduct = (object[]) await daoManager.GetAllProductID();
+            List<(string ProductID, string ProductName, decimal ProductPrice)> listProducts = tmpProduct
+                .Select(p => ((string)p.GetType().GetProperty("ProductID").GetValue(p),
+                              (string)p.GetType().GetProperty("ProductName").GetValue(p),
+                              (decimal)p.GetType().GetProperty("ProductPrice").GetValue(p)))
+                .ToList();
 
+            Random r = new Random();
+
+            for (int i = 0; i < TOTAL_INSERT_CUSTOMERS; i++)
+            {
+                int indexCustomer = r.Next(listCustomers.Count);
+                int indexProduct = r.Next(listProducts.Count);
+                int oferta = r.Next(1, 51);
+                decimal specialPrice = listProducts[indexProduct].ProductPrice - (listProducts[indexProduct].ProductPrice * (oferta / 100));
+                daoManager.InsertSpecialPrice(listCustomers[indexCustomer].CustomerID, listProducts[indexProduct].ProductID, specialPrice);
+
+                indexProduct = r.Next(listProducts.Count);
+                oferta = r.Next(1, 51);
+                specialPrice = listProducts[indexProduct].ProductPrice - (listProducts[indexProduct].ProductPrice * (oferta / 100));
+                daoManager.InsertSpecialPrice(listCustomers[indexCustomer].CustomerID, listProducts[indexProduct].ProductID, specialPrice);
+            }
         }
+
+        #endregion
 
     }
 }

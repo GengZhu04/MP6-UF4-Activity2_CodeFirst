@@ -76,7 +76,7 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
 
         #region PART 4
 
-        public bool InsertSpecialPrice(Customers customer, Products product, decimal specialPrice);
+        public bool InsertSpecialPrice(int customerNumber, string productCode, decimal specialPrice);
 
         #endregion
 

@@ -654,6 +654,20 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
             return employeesIds;
         }
 
+        // Get All Product ID
+        public async Task<ICollection<Object>> GetAllProductID()
+        {
+            var productsIds = companyDBContext.Products
+                .Select(p => new
+                {
+                    ProductID = p.ProductCode,
+                    ProductName = p.ProductName,
+                    ProductPrice = p.BuyPrice
+                })
+                .ToArray();
+            return productsIds;
+        }
+
         #endregion
 
         #region CRUD Employee

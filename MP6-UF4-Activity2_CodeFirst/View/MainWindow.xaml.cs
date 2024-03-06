@@ -25,6 +25,8 @@ namespace MP6_UF4_Activity2_CodeFirst.View
         private CompanyDBContext companyDBContext = new CompanyDBContext();
         private IDAODBManager daoManager;
         public const int TOTAL_INSERT_CUSTOMERS = 10;
+        private List<Offices> listOffices = new List<Offices>();
+        private int indexOffice, indexEmployee, indexCustomer;
 
         public MainWindow()
         {
@@ -40,13 +42,16 @@ namespace MP6_UF4_Activity2_CodeFirst.View
 
             // Insert Special Price Randomly
             //Create20RandomSpeacialPrice();
+
+            // Load Data
+            dgOffices.Loaded += DgOffices_Loaded;
         }
+
         private async Task LoadGrid()
         {
             //GRUD
             dgAllEmployees.ItemsSource = await daoManager.GetAllEmployees();
         }
-
 
         private bool GetImports()
         {
@@ -125,9 +130,6 @@ namespace MP6_UF4_Activity2_CodeFirst.View
             {
                 MessageBox.Show($"An error occurred while adding the employee: {ex.Message}");
             }
-            
-            
-
         }
 
         private async void btnUpdate_Click(object sender, RoutedEventArgs e)
@@ -263,7 +265,58 @@ namespace MP6_UF4_Activity2_CodeFirst.View
 
         #region megaJoin
 
+        private async void DgOffices_Loaded(object sender, RoutedEventArgs e)
+        {
+            listOffices = (List<Offices>)await daoManager.GetAllOfficeInfo();
+            dgOffices.ItemsSource = listOffices;
+        }
 
+        private void btnViewEmployee_Click(object sender, RoutedEventArgs e)
+        {
+            dgEmployees.ItemsSource = listOffices[indexOffice].Employees;
+            dgEmployees.Columns[7].Visibility = Visibility.Collapsed;
+            dgEmployees.Columns[9].Visibility = Visibility.Collapsed;
+            dgEmployees.Columns[11].Visibility = Visibility.Collapsed;
+        }
+
+        private void btnViewCustomer_Click(object sender, RoutedEventArgs e)
+        {
+            List<Employees> listEmployees = new List<Employees>(listOffices[indexOffice].Employees);
+            dgCustomers.ItemsSource = listEmployees[indexEmployee].Customers;
+            dgCustomers.Columns[13].Visibility = Visibility.Collapsed;
+            dgCustomers.Columns[15].Visibility = Visibility.Collapsed;
+            dgCustomers.Columns[16].Visibility = Visibility.Collapsed;
+            dgCustomers.Columns[17].Visibility = Visibility.Collapsed;
+        }
+
+        private void btnViewPayments_Click(object sender, RoutedEventArgs e)
+        {
+            List<Employees> listEmployees = new List<Employees>(listOffices[indexOffice].Employees);
+            List<Customers> listCustomers = new List<Customers>(listEmployees[indexEmployee].Customers);
+            dgPayments.ItemsSource = listCustomers[indexCustomer].Payments;
+            dgPayments.Columns[1].Visibility = Visibility.Collapsed;
+        }
+
+        private void dgOffices_SelectedCellsChanged(object sender, EventArgs e)
+        {
+            indexOffice = dgOffices.SelectedIndex;
+            dgPayments.ItemsSource = new List<object>();
+            dgCustomers.ItemsSource = new List<object>();
+            dgEmployees.ItemsSource = new List<object>();
+        }
+
+        private void dgEmployees_SelectedCellsChanged(object sender, EventArgs e)
+        {
+            indexEmployee = dgEmployees.SelectedIndex;
+            dgPayments.ItemsSource = new List<object>();
+            dgCustomers.ItemsSource = new List<object>();
+        }
+
+        private void dgCustomers_SelectedCellsChanged(object sender, EventArgs e)
+        {
+            indexCustomer = dgCustomers.SelectedIndex;
+            dgPayments.ItemsSource = new List<object>();
+        }
 
         #endregion
 
@@ -301,6 +354,5 @@ namespace MP6_UF4_Activity2_CodeFirst.View
         }
 
         #endregion
-
     }
 }

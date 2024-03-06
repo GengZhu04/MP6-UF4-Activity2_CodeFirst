@@ -73,5 +73,11 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
         public bool InsertSpecialPrice(Customers customer, Products product, decimal specialPrice);
 
         #endregion
+
+        #region Funcions Interficie
+
+        public Task<List<Employees>> GetAllEmployees();
+
+        #endregion
     }
 }

@@ -641,7 +641,7 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
                 if (emplDelete != null)
                 {
                     companyDBContext.Employees.Remove(emplDelete);
-                    await companyDBContext.SaveChangesAsync();
+                    companyDBContext.SaveChanges();
                     done = true;
                 }
             }
@@ -684,7 +684,7 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
                     emplUpdate.JobTitle = job;
 
                     companyDBContext.Employees.Update(emplUpdate);
-                    await companyDBContext.SaveChangesAsync();
+                    companyDBContext.SaveChanges();
                     done = true;
                 }
             }
@@ -708,12 +708,6 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
                     .Select(e => e.EmployeeNumber)
                     .FirstOrDefault();
 
-
-                if (reportTo > maxIdEmpl)
-                {
-                    reportTo = random.Next(0, maxIdEmpl);
-                }
-
                 var newEmployee = new Employees
                 {
                     EmployeeNumber = maxIdEmpl + 1,
@@ -727,7 +721,7 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
                 };
 
                 companyDBContext.Employees.Add(newEmployee);
-                await companyDBContext.SaveChangesAsync();
+                companyDBContext.SaveChanges();
                 done = true;
             }
             catch (Exception ex)
@@ -741,7 +735,7 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
 
         #endregion
 
-        #region Insert Special Price List
+        #region Insert Special Price List Part4
 
         public bool InsertSpecialPrice(Customers customer, Products product, decimal specialPrice)
         {
@@ -765,6 +759,16 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
             return done;
         }
 
+
+        #endregion
+
+        #region Funcions Interficie
+
+        public async Task<List<Employees>> GetAllEmployees()
+        {
+            return await companyDBContext.Employees
+                .ToListAsync();
+        }
 
         #endregion
     }

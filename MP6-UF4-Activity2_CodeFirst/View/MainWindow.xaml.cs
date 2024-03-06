@@ -40,6 +40,20 @@ namespace MP6_UF4_Activity2_CodeFirst.View
             //LoadGrid();
             #endregion
 
+            cmbEzSelect.Items.Clear();
+            cmbEzSelect.Items.Add("GetProductsLinesWithProducts");
+            cmbEzSelect.Items.Add("GetListPaymentsDate");
+            cmbEzSelect.Items.Add("GetEmployeesOfficesInfo");
+
+            cmbEzSelect.Items.Add("GetOrdersOrderedByDate");
+            cmbEzSelect.Items.Add("GetShippedOrdersRecentThan");
+            cmbEzSelect.Items.Add("GetProductsByScale");
+            cmbEzSelect.Items.Add("GetInfoCustomerProductsOrders");
+            cmbEzSelect.Items.Add("SearchCustomerByFirtsLetter");
+            cmbEzSelect.SelectedIndex = 0;
+
+            cmbAllEmpls.Loaded += CmbAllEmpls_Loaded;
+
             // Insert Special Price Randomly
             //Create20RandomSpeacialPrice();
 
@@ -176,22 +190,10 @@ namespace MP6_UF4_Activity2_CodeFirst.View
         }
         #endregion
 
-        #region Directo grid
+        #region MEGA SWITCH
 
         private async void cmbEzSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            cmbEzSelect.Items.Clear();
-            cmbEzSelect.Items.Add("GetProductsLinesWithProducts");
-            cmbEzSelect.Items.Add("GetListPaymentsDate");
-            cmbEzSelect.Items.Add("GetEmployeesOfficesInfo");
-
-            cmbEzSelect.Items.Add("GetOrdersWithDetails");
-            cmbEzSelect.Items.Add("GetShippedOrders");
-            cmbEzSelect.Items.Add("GetProductsByScale");
-            cmbEzSelect.SelectedIndex = 0;
-
-            
-
             switch (cmbEzSelect.SelectedIndex)
             {
                 //Facil
@@ -199,15 +201,14 @@ namespace MP6_UF4_Activity2_CodeFirst.View
                     spSerchDate.Visibility = Visibility.Collapsed;
                     spSerchScale.Visibility = Visibility.Collapsed;
                     spSerchCustomer.Visibility = Visibility.Collapsed;
-                    spSerchEmployee.Visibility = Visibility.Collapsed;
                     dgEzSelect.ItemsSource = await daoManager.GetProductsLinesWithProducts();
                     break;
 
                 case 1:
                     spSerchDate.Visibility = Visibility.Collapsed;
                     spSerchScale.Visibility = Visibility.Collapsed;
+                    spSerchCustomerByFirtsLetter.Visibility = Visibility.Collapsed;
                     spSerchCustomer.Visibility = Visibility.Collapsed;
-                    spSerchEmployee.Visibility = Visibility.Collapsed;
                     dgEzSelect.ItemsSource = await daoManager.GetListPaymentsDate();
                     break;
 
@@ -215,7 +216,7 @@ namespace MP6_UF4_Activity2_CodeFirst.View
                     spSerchDate.Visibility = Visibility.Collapsed;
                     spSerchScale.Visibility = Visibility.Collapsed;
                     spSerchCustomer.Visibility = Visibility.Collapsed;
-                    spSerchEmployee.Visibility = Visibility.Collapsed;
+                    spSerchCustomerByFirtsLetter.Visibility = Visibility.Collapsed;
                     dgEzSelect.ItemsSource = await daoManager.GetEmployeesOfficesInfo();
                     break;
                     //Vigilar
@@ -223,42 +224,115 @@ namespace MP6_UF4_Activity2_CodeFirst.View
                     spSerchDate.Visibility = Visibility.Collapsed;
                     spSerchScale.Visibility = Visibility.Collapsed;
                     spSerchCustomer.Visibility = Visibility.Collapsed;
-                    spSerchEmployee.Visibility = Visibility.Collapsed;
+                    spSerchCustomerByFirtsLetter.Visibility = Visibility.Collapsed;
                     dgEzSelect.ItemsSource = await daoManager.GetOrdersOrderedByDate();
+                    dgEzSelect.Columns[7].Visibility = Visibility.Collapsed;
+                    dgEzSelect.Columns[8].Visibility = Visibility.Collapsed;
                     break;
                 case 4:
                     spSerchScale.Visibility = Visibility.Collapsed;
                     spSerchCustomer.Visibility = Visibility.Collapsed;
-                    spSerchEmployee.Visibility = Visibility.Collapsed;
+                    spSerchCustomerByFirtsLetter.Visibility = Visibility.Collapsed;
                     spSerchDate.Visibility = Visibility.Visible;
-                    //dgEzSelect.ItemsSource = await daoManager.GetShippedOrdersRecentThan(date);
+                    dgEzSelect.ItemsSource = new List<object>();
                     break;
                 case 5:
                     spSerchDate.Visibility = Visibility.Collapsed;
                     spSerchCustomer.Visibility = Visibility.Collapsed;
-                    spSerchEmployee.Visibility = Visibility.Collapsed;
+                    spSerchCustomerByFirtsLetter.Visibility = Visibility.Collapsed;
                     spSerchScale.Visibility = Visibility.Visible;
-                    //dgEzSelect.ItemsSource = await daoManager.GetProductsByScale(scale);
+                    dgEzSelect.ItemsSource = new List<object>();
+                    
+                    
                     break;
                 case 6:
                     spSerchDate.Visibility = Visibility.Collapsed;
                     spSerchScale.Visibility = Visibility.Collapsed;
+                    spSerchCustomerByFirtsLetter.Visibility = Visibility.Collapsed;
                     spSerchCustomer.Visibility = Visibility.Visible;
-                    //dgEzSelect.ItemsSource = await daoManager.GetInfoProductsOrders(cusId);
+                    object[] tmpCustomer = (object[])await daoManager.GetAllCustomerID();
+                    List<int> listCustomers = tmpCustomer
+                        .Select(c => ((int)c.GetType().GetProperty("CustomerID").GetValue(c)))
+                        .ToList();
+                    cmbCustomers.ItemsSource = listCustomers;
+                    
                     break;
                 case 7:
                     spSerchDate.Visibility = Visibility.Collapsed;
                     spSerchScale.Visibility = Visibility.Collapsed;
-                    spSerchEmployee.Visibility = Visibility.Visible;
-                    //dgEzSelect.ItemsSource = await daoManager.CountCustomersByEmployee(empId);
+                    spSerchCustomer.Visibility = Visibility.Collapsed;
+                    spSerchCustomerByFirtsLetter.Visibility = Visibility.Visible;
+                    dgEzSelect.ItemsSource = new List<object>();
                     break;
-                    
-
+                
                 default:
                     dgEzSelect.ItemsSource = await daoManager.GetProductsLinesWithProducts();
                     break;
             }
 
+        }
+        private async void btnSearchByDate_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime date;
+            DateTime.TryParse(tbDate.Text, out date);
+            dgEzSelect.ItemsSource = await daoManager.GetShippedOrdersRecentThan(date);
+            dgEzSelect.Columns[7].Visibility = Visibility.Collapsed;
+            dgEzSelect.Columns[8].Visibility = Visibility.Collapsed;
+        }
+        private async void btnSearchByScale_Click(object sender, RoutedEventArgs e)
+        {
+            string scale = tbScale.Text;
+            dgEzSelect.ItemsSource = await daoManager.GetProductsByScale(scale);
+            dgEzSelect.Columns[3].Visibility = Visibility.Collapsed;
+            dgEzSelect.Columns[10].Visibility = Visibility.Collapsed;
+            dgEzSelect.Columns[11].Visibility = Visibility.Collapsed;
+        }
+        private async void btnSearchCustomerByFirtsLetter_Click(object sender, RoutedEventArgs e)
+        {
+            char letter;
+
+            if (char.TryParse(tbCustomerByFirtsLetter.Text, out letter))
+            {
+                dgEzSelect.ItemsSource = await daoManager.GetCustomersWithFirstNameChar(letter);
+                dgEzSelect.Columns[9].Visibility = Visibility.Collapsed;
+                dgEzSelect.Columns[14].Visibility = Visibility.Collapsed;
+                dgEzSelect.Columns[15].Visibility = Visibility.Collapsed;
+                dgEzSelect.Columns[16].Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                MessageBox.Show("Please enter a valid single letter.");
+            }
+            
+            
+            
+        }
+        private async void cmbCustomers_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int id = Convert.ToInt32(cmbCustomers.SelectedItem.ToString());
+            dgEzSelect.ItemsSource = await daoManager.GetInfoProductsOrders(id);
+        }
+
+        private async void cmbAllEmpls_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int id = Convert.ToInt32(cmbAllEmpls.SelectedItem.ToString());
+            object[] tmpEmployee = (object[])await daoManager.GetAllEmployeeID();
+            List<string> name = tmpEmployee
+                .Where(e => ((int)e.GetType().GetProperty("EmployeeID").GetValue(e)) == id)
+                .Select(e => ((string)e.GetType().GetProperty("EmployeeFirstName").GetValue(e)))
+                .ToList();
+            int countCustomers = await daoManager.CountCustomersByEmployee(id);
+            tbOutput.Text = $"The {id} Employee ID That Has Name {name[0]} Has {countCustomers} Customers";
+        }
+
+        private async void CmbAllEmpls_Loaded(object sender, RoutedEventArgs e)
+        {
+            object[] tmpEmployee = (object[])await daoManager.GetAllEmployeeID();
+            List<int> listEmployees = tmpEmployee
+                .Select(c => ((int)c.GetType().GetProperty("EmployeeID").GetValue(c)))
+                .ToList();
+            cmbAllEmpls.ItemsSource = listEmployees;
+            cmbAllEmpls.SelectedIndex = 0;
         }
 
         #endregion
@@ -352,7 +426,7 @@ namespace MP6_UF4_Activity2_CodeFirst.View
                 daoManager.InsertSpecialPrice(listCustomers[indexCustomer].CustomerID, listProducts[indexProduct].ProductID, specialPrice);
             }
         }
-
+        
         #endregion
     }
 }

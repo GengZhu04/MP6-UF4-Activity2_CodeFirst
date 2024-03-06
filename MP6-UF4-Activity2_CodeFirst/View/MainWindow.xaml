@@ -162,29 +162,36 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <ComboBox Name="cmbEzSelect" Grid.Row="0" SelectionChanged="cmbEzSelect_SelectionChanged"/>
-                    <StackPanel x:Name="spSerchEmployee" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Visibility="Collapsed">
-                        <TextBlock Text="Select Employee Id"/>
-                        <ComboBox Name="cmbAllEmpls" />
+                    <StackPanel x:Name="spSerchCustomerByFirtsLetter" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Visibility="Collapsed">
+                        <TextBlock Text="Select Customer By Firts Letter"/>
+                        <TextBox Name="tbCustomerByFirtsLetter"/>
+                        <Button x:Name="btnSearchCustomerByFirtsLetter" Click="btnSearchCustomerByFirtsLetter_Click" Content="Search"/>
                     </StackPanel>
                     <StackPanel x:Name="spSerchCustomer" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Visibility="Collapsed">
                         <TextBlock Text="Select Customer Id"/>
-                        <ComboBox Name="cmbCustomers" />
+                        <ComboBox Name="cmbCustomers" SelectionChanged="cmbCustomers_SelectionChanged"/>
                     </StackPanel>
                     <StackPanel x:Name="spSerchScale" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Visibility="Collapsed">
-                        <TextBlock Text="Select Product By Scale"/>
-                        <ComboBox Name="cmbScale" />
+                        <TextBlock Text="Select Product By Scale: exemple 1:10"/>
+                        <TextBox Name="tbScale"/>
+                        <Button x:Name="btnSearchByScale" Click="btnSearchByScale_Click" Content="Search"/>
                     </StackPanel>
                     <StackPanel x:Name="spSerchDate" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Visibility="Collapsed">
-                        <TextBlock Text="Select Orders By data: exemple data year-mounth-day "/>
+                        <TextBlock Text="Select Orders By data: exemple 12-04-2003 "/>
                         <TextBox Name="tbDate" />
+                        <Button x:Name="btnSearchByDate" Click="btnSearchByDate_Click" Content="Search"/>
                     </StackPanel>
                     <DataGrid x:Name="dgEzSelect" Grid.Row="2" Grid.ColumnSpan="2" IsReadOnly="True">
-                        
+
                     </DataGrid>
                 </Grid>
             </TabItem>
-            <TabItem Header="2/3 Joins">
-                
+            <TabItem Header="Count Select">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="spSerchEmployee" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+                    <TextBlock Text="Select Employee Id" Margin="10"/>
+                    <ComboBox Name="cmbAllEmpls" SelectionChanged="cmbAllEmpls_SelectionChanged" Margin="10"/>
+                    <TextBlock x:Name="tbOutput" Text="" Margin="10"/>
+                </StackPanel>
             </TabItem>
             <TabItem Header="Mega Join">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">

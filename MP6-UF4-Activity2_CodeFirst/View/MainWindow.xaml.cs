@@ -348,19 +348,25 @@ namespace MP6_UF4_Activity2_CodeFirst.View
         private void btnViewEmployee_Click(object sender, RoutedEventArgs e)
         {
             dgEmployees.ItemsSource = listOffices[indexOffice].Employees;
-            dgEmployees.Columns[7].Visibility = Visibility.Collapsed;
-            dgEmployees.Columns[9].Visibility = Visibility.Collapsed;
-            dgEmployees.Columns[11].Visibility = Visibility.Collapsed;
+            if (dgEmployees.Columns.Count > 1 )
+            {
+                dgEmployees.Columns[7].Visibility = Visibility.Collapsed;
+                dgEmployees.Columns[9].Visibility = Visibility.Collapsed;
+                dgEmployees.Columns[11].Visibility = Visibility.Collapsed;
+            }
         }
 
         private void btnViewCustomer_Click(object sender, RoutedEventArgs e)
         {
             List<Employees> listEmployees = new List<Employees>(listOffices[indexOffice].Employees);
             dgCustomers.ItemsSource = listEmployees[indexEmployee].Customers;
-            dgCustomers.Columns[13].Visibility = Visibility.Collapsed;
-            dgCustomers.Columns[15].Visibility = Visibility.Collapsed;
-            dgCustomers.Columns[16].Visibility = Visibility.Collapsed;
-            dgCustomers.Columns[17].Visibility = Visibility.Collapsed;
+            if (dgCustomers.Columns.Count > 1 )
+            {
+                dgCustomers.Columns[13].Visibility = Visibility.Collapsed;
+                dgCustomers.Columns[15].Visibility = Visibility.Collapsed;
+                dgCustomers.Columns[16].Visibility = Visibility.Collapsed;
+                dgCustomers.Columns[17].Visibility = Visibility.Collapsed;
+            }
         }
 
         private void btnViewPayments_Click(object sender, RoutedEventArgs e)
@@ -368,7 +374,10 @@ namespace MP6_UF4_Activity2_CodeFirst.View
             List<Employees> listEmployees = new List<Employees>(listOffices[indexOffice].Employees);
             List<Customers> listCustomers = new List<Customers>(listEmployees[indexEmployee].Customers);
             dgPayments.ItemsSource = listCustomers[indexCustomer].Payments;
-            dgPayments.Columns[1].Visibility = Visibility.Collapsed;
+            if (dgPayments.Columns.Count > 1 )
+            {
+                dgPayments.Columns[1].Visibility = Visibility.Collapsed;
+            }
         }
 
         private void dgOffices_SelectedCellsChanged(object sender, EventArgs e)

@@ -68,6 +68,7 @@ namespace MP6_UF4_Activity2_CodeFirst.View
             return done;
 
         }
+        
         private async void Get()
         {
             //gridData.ItemsSource = await daoManager.GetOrdersOrderedByDate();
@@ -98,6 +99,7 @@ namespace MP6_UF4_Activity2_CodeFirst.View
             //var result = await daoManager.UpdateEmployee(1703,"El Rey","Artur","x4444",null,"1","aaaaaa","aa");
         }
 
+
         #region CRUD
 
 
@@ -121,7 +123,7 @@ namespace MP6_UF4_Activity2_CodeFirst.View
             {
                 MessageBox.Show($"An error occurred while adding the employee: {ex.Message}");
             }
-            //peta
+            
             
 
         }
@@ -263,6 +265,12 @@ namespace MP6_UF4_Activity2_CodeFirst.View
 
         #endregion
 
+
+
+        private void Create20RandomSpeacialPrice()
+        {
+
+        }
 
     }
 }

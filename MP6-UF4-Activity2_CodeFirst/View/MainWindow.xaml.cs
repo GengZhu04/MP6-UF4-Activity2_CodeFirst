@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace MP6_UF4_Activity2_CodeFirst.View
 {
@@ -31,6 +32,17 @@ namespace MP6_UF4_Activity2_CodeFirst.View
             daoManager = DAODBManagerFactory.CreateDAODBManager(companyDBContext);
             //GetImports();
             Get();
+
+            #region LoadsDataBase Information
+            LoadGrid();
+            #endregion
+
+           
+        }
+        private async Task LoadGrid()
+        {
+            //GRUD
+            dgAllEmployees.ItemsSource = await daoManager.GetAllEmployees();
         }
 
 
@@ -87,9 +99,178 @@ namespace MP6_UF4_Activity2_CodeFirst.View
             //var result = await daoManager.UpdateEmployee(1703,"El Rey","Artur","x4444",null,"1","aaaaaa","aa");
         }
 
+
+        #region CRUD
+
+
+        private async void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(employeeName.Text) || string.IsNullOrEmpty(employeeLastName.Text) ||
+                string.IsNullOrEmpty(employeeDepertment.Text))
+            {
+                MessageBox.Show("Please fill in all the required fields.");
+            }
+            try
+            {
+                
+                int? jefeId = !string.IsNullOrEmpty(employeeJefe.Text) ? Convert.ToInt32(employeeJefe.Text) : null;
+
+                daoManager.AddEmployee(employeeName.Text, employeeLastName.Text, jefeId, employeeDepertment.Text, employeeJob.Text);
+                await LoadGrid();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while adding the employee: {ex.Message}");
+            }
+            
+            
+
+        }
+
+        private async void btnUpdate_Click(object sender, RoutedEventArgs e)
+        {
+
+            try
+            {
+                if (string.IsNullOrEmpty(employeeUpdateId.Text) || string.IsNullOrEmpty(updateName.Text) || string.IsNullOrEmpty(updateeLastName.Text) ||
+                string.IsNullOrEmpty(updateDepertment.Text) || (string.IsNullOrEmpty(updateExtent.Text) || updateExtent.Text.First() != 'x'))
+                {
+                    MessageBox.Show("Please fill in all the required fields.");
+                }
+                else
+                {
+                    int? jefeId = !string.IsNullOrEmpty(employeeJefe.Text) ? Convert.ToInt32(employeeJefe.Text) : null;
+
+                    daoManager.UpdateEmployee(Convert.ToInt32(employeeUpdateId.Text), updateName.Text, updateeLastName.Text, updateExtent.Text, jefeId, updateDepertment.Text, updateEmail.Text, updateJob.Text);
+                    await LoadGrid();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while updating the employee: {ex.Message}");
+            }
+
+        }
+
+        private async void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(employeeDeleteId.Text))
+            {
+                MessageBox.Show("Please fill in all the required fields.");
+            }
+            try
+            {
+                daoManager.DeleteEmployee(Convert.ToInt32(employeeDeleteId.Text));
+                await LoadGrid();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while deleting the employee: {ex.Message}");
+            }
+        }
+        #endregion
+
+        #region Directo grid
+
+        private async void cmbEzSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cmbEzSelect.Items.Clear();
+            cmbEzSelect.Items.Add("GetProductsLinesWithProducts");
+            cmbEzSelect.Items.Add("GetListPaymentsDate");
+            cmbEzSelect.Items.Add("GetEmployeesOfficesInfo");
+
+            cmbEzSelect.Items.Add("GetOrdersWithDetails");
+            cmbEzSelect.Items.Add("GetShippedOrders");
+            cmbEzSelect.Items.Add("GetProductsByScale");
+            cmbEzSelect.SelectedIndex = 0;
+
+            
+
+            switch (cmbEzSelect.SelectedIndex)
+            {
+                //Facil
+                case 0:
+                    spSerchDate.Visibility = Visibility.Collapsed;
+                    spSerchScale.Visibility = Visibility.Collapsed;
+                    spSerchCustomer.Visibility = Visibility.Collapsed;
+                    spSerchEmployee.Visibility = Visibility.Collapsed;
+                    dgEzSelect.ItemsSource = await daoManager.GetProductsLinesWithProducts();
+                    break;
+
+                case 1:
+                    spSerchDate.Visibility = Visibility.Collapsed;
+                    spSerchScale.Visibility = Visibility.Collapsed;
+                    spSerchCustomer.Visibility = Visibility.Collapsed;
+                    spSerchEmployee.Visibility = Visibility.Collapsed;
+                    dgEzSelect.ItemsSource = await daoManager.GetListPaymentsDate();
+                    break;
+
+                case 2:
+                    spSerchDate.Visibility = Visibility.Collapsed;
+                    spSerchScale.Visibility = Visibility.Collapsed;
+                    spSerchCustomer.Visibility = Visibility.Collapsed;
+                    spSerchEmployee.Visibility = Visibility.Collapsed;
+                    dgEzSelect.ItemsSource = await daoManager.GetEmployeesOfficesInfo();
+                    break;
+                    //Vigilar
+                case 3:
+                    spSerchDate.Visibility = Visibility.Collapsed;
+                    spSerchScale.Visibility = Visibility.Collapsed;
+                    spSerchCustomer.Visibility = Visibility.Collapsed;
+                    spSerchEmployee.Visibility = Visibility.Collapsed;
+                    dgEzSelect.ItemsSource = await daoManager.GetOrdersOrderedByDate();
+                    break;
+                case 4:
+                    spSerchScale.Visibility = Visibility.Collapsed;
+                    spSerchCustomer.Visibility = Visibility.Collapsed;
+                    spSerchEmployee.Visibility = Visibility.Collapsed;
+                    spSerchDate.Visibility = Visibility.Visible;
+                    //dgEzSelect.ItemsSource = await daoManager.GetShippedOrdersRecentThan(date);
+                    break;
+                case 5:
+                    spSerchDate.Visibility = Visibility.Collapsed;
+                    spSerchCustomer.Visibility = Visibility.Collapsed;
+                    spSerchEmployee.Visibility = Visibility.Collapsed;
+                    spSerchScale.Visibility = Visibility.Visible;
+                    //dgEzSelect.ItemsSource = await daoManager.GetProductsByScale(scale);
+                    break;
+                case 6:
+                    spSerchDate.Visibility = Visibility.Collapsed;
+                    spSerchScale.Visibility = Visibility.Collapsed;
+                    spSerchCustomer.Visibility = Visibility.Visible;
+                    //dgEzSelect.ItemsSource = await daoManager.GetInfoProductsOrders(cusId);
+                    break;
+                case 7:
+                    spSerchDate.Visibility = Visibility.Collapsed;
+                    spSerchScale.Visibility = Visibility.Collapsed;
+                    spSerchEmployee.Visibility = Visibility.Visible;
+                    //dgEzSelect.ItemsSource = await daoManager.CountCustomersByEmployee(empId);
+                    break;
+                    
+
+                default:
+                    dgEzSelect.ItemsSource = await daoManager.GetProductsLinesWithProducts();
+                    break;
+            }
+
+        }
+
+        #endregion
+
+        #region megaJoin
+
+
+
+        #endregion
+
+
+
         private void Create20RandomSpeacialPrice()
         {
 
         }
+
     }
 }

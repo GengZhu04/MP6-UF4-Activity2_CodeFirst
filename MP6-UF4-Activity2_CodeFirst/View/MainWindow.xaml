@@ -7,8 +7,196 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <DataGrid x:Name="gridData">
-            
-        </DataGrid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" FontSize="20" HorizontalAlignment="Center" 
+                   Text="ENTITY FRAMEWORK"/>
+
+        <TabControl Grid.Row="1">
+            <TabItem Header="CRUD">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TabControl Grid.Column="0">
+                        <TabItem Header="Add">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="aUTO"/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <!--#region TextBlock-->
+                                <TextBlock Grid.Column="1" VerticalAlignment="Center" 
+                                           HorizontalAlignment="Center" FontSize="20" Text="ADD"/>
+                                <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" 
+                                           HorizontalAlignment="Center" FontSize="12" Text="Employees Name"/>
+                                <TextBlock Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" 
+                                           HorizontalAlignment="Center" FontSize="12" Text="Employees Last Name"/>
+                                <TextBlock Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" 
+                                           HorizontalAlignment="Center" FontSize="12" Text="Jefe(ReportTo)"/>
+                                <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" 
+                                           HorizontalAlignment="Center" FontSize="12" Text="Departamento(officeCode)"/>
+                                <TextBlock Grid.Row="3" Grid.Column="01" VerticalAlignment="Center" 
+                                           HorizontalAlignment="Center" FontSize="12" Text="Trabajo"/>
+                                <!--#endregion-->
+
+                                <!--#region TextBox-->
+
+                                <TextBox x:Name="employeeName" Grid.Row="2" Grid.Column="0"/>
+                                <TextBox x:Name="employeeLastName" Grid.Row="2" Grid.Column="1"/>
+                                <TextBox x:Name="employeeJefe" Grid.Row="2" Grid.Column="2"/>
+                                <TextBox x:Name="employeeDepertment" Grid.Row="4" Grid.Column="0"/>
+                                <TextBox x:Name="employeeJob" Grid.Row="4" Grid.Column="1"/>
+                                <!--#endregion-->
+                                <!--#region Button-->
+                                <Button x:Name="btnAdd" Grid.Row="4" Grid.Column="3" Content="ADD" Click="btnAdd_Click"/>
+                                <!--#region -->
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Update">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="aUTO"/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <!--#region TextBlock-->
+                                <TextBlock Grid.Column="1" VerticalAlignment="Center" 
+                                           HorizontalAlignment="Center" FontSize="20" Text="UPDATE"/>
+                                <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" 
+                                           HorizontalAlignment="Center" FontSize="12" Text="Employee Id"/>
+                                <TextBlock Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" 
+                                           HorizontalAlignment="Center" FontSize="12" Text="Employee Name"/>
+                                <TextBlock Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" 
+                                           HorizontalAlignment="Center" FontSize="12" Text="Employee Last Name"/>
+                                <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" 
+                                           HorizontalAlignment="Center" FontSize="12" Text="Jefe(ReportTo)"/>
+                                <TextBlock Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" 
+                                           HorizontalAlignment="Center" FontSize="12" Text="Departamento(officeCode)"/>
+                                <TextBlock Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" 
+                                           HorizontalAlignment="Center" FontSize="12" Text="Trabajo"/>
+                                <TextBlock Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" 
+                                           HorizontalAlignment="Center" FontSize="12" Text="Codigo De Entrada(extent)"/>
+                                <TextBlock Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" 
+                                           HorizontalAlignment="Center" FontSize="12" Text="Email"/>
+                                <!--#endregion-->
+
+                                <!--#region TextBox-->
+
+                                <TextBox x:Name="employeeUpdateId" Grid.Row="2" Grid.Column="0"/>
+                                <TextBox x:Name="updateName" Grid.Row="2" Grid.Column="1"/>
+                                <TextBox x:Name="updateeLastName" Grid.Row="2" Grid.Column="2"/>
+                                <TextBox x:Name="updateJefe" Grid.Row="4" Grid.Column="0"/>
+                                <TextBox x:Name="updateDepertment" Grid.Row="4" Grid.Column="1"/>
+                                <TextBox x:Name="updateJob" Grid.Row="4" Grid.Column="2"/>
+                                <TextBox x:Name="updateExtent" Grid.Row="6" Grid.Column="0"/>
+                                <TextBox x:Name="updateEmail" Grid.Row="6" Grid.Column="1"/>
+                                <!--#endregion-->
+                                <!--#region Button-->
+                                <Button x:Name="btnUpdate" Grid.Row="6" Grid.Column="3" Content="UPDATE" Click="btnUpdate_Click"/>
+                                <!--#region -->
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Delete">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="aUTO"/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <!--#region TextBlock-->
+                                <TextBlock Grid.Column="1" VerticalAlignment="Center" 
+                                           HorizontalAlignment="Center" FontSize="20" Text="DELETE"/>
+                                <TextBlock Grid.Row="1" VerticalAlignment="Center" 
+                                           HorizontalAlignment="Center" FontSize="20" Text="Employee Id"/>
+                                <!--#endregion-->
+
+                                <!--#region TextBox-->
+                                <TextBox x:Name="employeeDeleteId" Grid.Row="2" Grid.Column="0"/>
+                                <!--#endregion-->
+                                <!--#region Button-->
+                                <Button x:Name="btnDelete" Grid.Row="6" Grid.Column="3" Content="DELETE" Click="btnDelete_Click"/>
+                                <!--#region -->
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+
+                    <DataGrid Name="dgAllEmployees" Grid.Column="1" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            
+                        </DataGrid.Columns>
+                    </DataGrid>
+                   
+                </Grid>
+            </TabItem>
+            <TabItem Header="Selecs">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox Name="cmbEzSelect" Grid.Row="0" SelectionChanged="cmbEzSelect_SelectionChanged"/>
+                    <StackPanel x:Name="spSerchEmployee" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Visibility="Collapsed">
+                        <TextBlock Text="Select Employee Id"/>
+                        <ComboBox Name="cmbAllEmpls" />
+                    </StackPanel>
+                    <StackPanel x:Name="spSerchCustomer" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Visibility="Collapsed">
+                        <TextBlock Text="Select Customer Id"/>
+                        <ComboBox Name="cmbCustomers" />
+                    </StackPanel>
+                    <StackPanel x:Name="spSerchScale" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Visibility="Collapsed">
+                        <TextBlock Text="Select Product By Scale"/>
+                        <ComboBox Name="cmbScale" />
+                    </StackPanel>
+                    <StackPanel x:Name="spSerchDate" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Visibility="Collapsed">
+                        <TextBlock Text="Select Orders By data: exemple data year-mounth-day "/>
+                        <TextBox Name="tbDate" />
+                    </StackPanel>
+                    <DataGrid x:Name="dgEzSelect" Grid.Row="2" Grid.ColumnSpan="2" IsReadOnly="True">
+                        
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="2/3 Joins">
+                
+            </TabItem>
+            <TabItem Header="Mega Join">
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <DataGrid x:Name="dgMegaJoin" IsReadOnly="True">
+
+                        </DataGrid>
+                    </StackPanel>
+                    <ScrollBar Orientation="Horizontal"/>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+        
     </Grid>
 </Window>

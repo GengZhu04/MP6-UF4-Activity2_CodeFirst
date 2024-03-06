@@ -591,8 +591,8 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
                 .ThenInclude(e => e.Customers)
                 .ThenInclude(c => c.Payments)
                 .OrderBy(o => o.State)
-                .ToListAsync();
-            return await officeInfo;
+                .ToList();
+            return officeInfo;
         }
 
         // Join Office To Employees And Get Some Atributes And Ordered By First Name ASC

@@ -189,8 +189,40 @@
             <TabItem Header="Mega Join">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                     <StackPanel Orientation="Horizontal">
-                        <DataGrid x:Name="dgMegaJoin" IsReadOnly="True">
-
+                        <DataGrid x:Name="dgOffices" IsReadOnly="True" AutoGenerateColumns="True" SelectedCellsChanged="dgOffices_SelectedCellsChanged">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="View Employees" x:Name="btnViewEmployee" Click="btnViewEmployee_Click"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <DataGrid x:Name="dgEmployees" IsReadOnly="True" AutoGenerateColumns="True" SelectedCellsChanged="dgEmployees_SelectedCellsChanged">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="View Customers" x:Name="btnViewCustomer" Click="btnViewCustomer_Click"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <DataGrid x:Name="dgCustomers" IsReadOnly="True" AutoGenerateColumns="True" SelectedCellsChanged="dgCustomers_SelectedCellsChanged">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="View Payments" x:Name="btnViewPayments" Click="btnViewPayments_Click"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <DataGrid x:Name="dgPayments" IsReadOnly="True" AutoGenerateColumns="True">
                         </DataGrid>
                     </StackPanel>
                 </ScrollViewer>

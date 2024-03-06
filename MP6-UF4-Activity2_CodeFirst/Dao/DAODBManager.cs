@@ -591,8 +591,8 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
                 .ThenInclude(e => e.Customers)
                 .ThenInclude(c => c.Payments)
                 .OrderBy(o => o.State)
-                .ToListAsync();
-            return await officeInfo;
+                .ToList();
+            return officeInfo;
         }
 
         // Join Office To Employees And Get Some Atributes And Ordered By First Name ASC
@@ -735,17 +735,17 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
 
         #endregion
 
-        #region Insert Special Price List Part4
+        #region Special Price List Part4
 
-        public bool InsertSpecialPrice(Customers customer, Products product, decimal specialPrice)
+        public bool InsertSpecialPrice(int customerNumber, string productCode, decimal specialPrice)
         {
             bool done = false;
             try
             {
                 SpecialPriceList specialPriceList = new SpecialPriceList()
                 {
-                    ProductCode = product.ProductCode,
-                    CustomerNumber = customer.CustomerNumber,
+                    ProductCode = productCode,
+                    CustomerNumber = customerNumber,
                     SpecialPrice = specialPrice
                 };
                 companyDBContext.SpecialPriceList.Add(specialPriceList);

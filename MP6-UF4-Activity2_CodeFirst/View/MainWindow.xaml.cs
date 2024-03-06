@@ -24,6 +24,9 @@ namespace MP6_UF4_Activity2_CodeFirst.View
     {
         private CompanyDBContext companyDBContext = new CompanyDBContext();
         private IDAODBManager daoManager;
+        public const int TOTAL_INSERT_CUSTOMERS = 10;
+        private List<Offices> listOffices = new List<Offices>();
+        private int indexOffice, indexEmployee, indexCustomer;
 
         public MainWindow()
         {
@@ -31,10 +34,10 @@ namespace MP6_UF4_Activity2_CodeFirst.View
 
             daoManager = DAODBManagerFactory.CreateDAODBManager(companyDBContext);
             //GetImports();
-            Get();
+            //Get();
 
             #region LoadsDataBase Information
-            LoadGrid();
+            //LoadGrid();
             #endregion
 
             cmbEzSelect.Items.Clear();
@@ -51,6 +54,11 @@ namespace MP6_UF4_Activity2_CodeFirst.View
 
             cmbAllEmpls.Loaded += CmbAllEmpls_Loaded;
 
+            // Insert Special Price Randomly
+            //Create20RandomSpeacialPrice();
+
+            // Load Data
+            dgOffices.Loaded += DgOffices_Loaded;
         }
 
         private async Task LoadGrid()
@@ -58,7 +66,6 @@ namespace MP6_UF4_Activity2_CodeFirst.View
             //GRUD
             dgAllEmployees.ItemsSource = await daoManager.GetAllEmployees();
         }
-
 
         private bool GetImports()
         {
@@ -137,9 +144,6 @@ namespace MP6_UF4_Activity2_CodeFirst.View
             {
                 MessageBox.Show($"An error occurred while adding the employee: {ex.Message}");
             }
-            
-            
-
         }
 
         private async void btnUpdate_Click(object sender, RoutedEventArgs e)
@@ -335,17 +339,94 @@ namespace MP6_UF4_Activity2_CodeFirst.View
 
         #region megaJoin
 
+        private async void DgOffices_Loaded(object sender, RoutedEventArgs e)
+        {
+            listOffices = (List<Offices>)await daoManager.GetAllOfficeInfo();
+            dgOffices.ItemsSource = listOffices;
+        }
 
+        private void btnViewEmployee_Click(object sender, RoutedEventArgs e)
+        {
+            dgEmployees.ItemsSource = listOffices[indexOffice].Employees;
+            dgEmployees.Columns[7].Visibility = Visibility.Collapsed;
+            dgEmployees.Columns[9].Visibility = Visibility.Collapsed;
+            dgEmployees.Columns[11].Visibility = Visibility.Collapsed;
+        }
+
+        private void btnViewCustomer_Click(object sender, RoutedEventArgs e)
+        {
+            List<Employees> listEmployees = new List<Employees>(listOffices[indexOffice].Employees);
+            dgCustomers.ItemsSource = listEmployees[indexEmployee].Customers;
+            dgCustomers.Columns[13].Visibility = Visibility.Collapsed;
+            dgCustomers.Columns[15].Visibility = Visibility.Collapsed;
+            dgCustomers.Columns[16].Visibility = Visibility.Collapsed;
+            dgCustomers.Columns[17].Visibility = Visibility.Collapsed;
+        }
+
+        private void btnViewPayments_Click(object sender, RoutedEventArgs e)
+        {
+            List<Employees> listEmployees = new List<Employees>(listOffices[indexOffice].Employees);
+            List<Customers> listCustomers = new List<Customers>(listEmployees[indexEmployee].Customers);
+            dgPayments.ItemsSource = listCustomers[indexCustomer].Payments;
+            dgPayments.Columns[1].Visibility = Visibility.Collapsed;
+        }
+
+        private void dgOffices_SelectedCellsChanged(object sender, EventArgs e)
+        {
+            indexOffice = dgOffices.SelectedIndex;
+            dgPayments.ItemsSource = new List<object>();
+            dgCustomers.ItemsSource = new List<object>();
+            dgEmployees.ItemsSource = new List<object>();
+        }
+
+        private void dgEmployees_SelectedCellsChanged(object sender, EventArgs e)
+        {
+            indexEmployee = dgEmployees.SelectedIndex;
+            dgPayments.ItemsSource = new List<object>();
+            dgCustomers.ItemsSource = new List<object>();
+        }
+
+        private void dgCustomers_SelectedCellsChanged(object sender, EventArgs e)
+        {
+            indexCustomer = dgCustomers.SelectedIndex;
+            dgPayments.ItemsSource = new List<object>();
+        }
 
         #endregion
 
+        #region Part 4
 
-
-        private void Create20RandomSpeacialPrice()
+        private async void Create20RandomSpeacialPrice()
         {
+            object[] tmpCustomer = (object[])await daoManager.GetAllCustomerID();
+            List<(int CustomerID, string CustomerName)> listCustomers = tmpCustomer
+                .Select(c => ((int)c.GetType().GetProperty("CustomerID").GetValue(c),
+                              (string)c.GetType().GetProperty("CustomerName").GetValue(c)))
+                .ToList();
+            object[] tmpProduct = (object[]) await daoManager.GetAllProductID();
+            List<(string ProductID, string ProductName, decimal ProductPrice)> listProducts = tmpProduct
+                .Select(p => ((string)p.GetType().GetProperty("ProductID").GetValue(p),
+                              (string)p.GetType().GetProperty("ProductName").GetValue(p),
+                              (decimal)p.GetType().GetProperty("ProductPrice").GetValue(p)))
+                .ToList();
 
+            Random r = new Random();
+
+            for (int i = 0; i < TOTAL_INSERT_CUSTOMERS; i++)
+            {
+                int indexCustomer = r.Next(listCustomers.Count);
+                int indexProduct = r.Next(listProducts.Count);
+                int oferta = r.Next(1, 51);
+                decimal specialPrice = listProducts[indexProduct].ProductPrice - (listProducts[indexProduct].ProductPrice * (oferta / 100));
+                daoManager.InsertSpecialPrice(listCustomers[indexCustomer].CustomerID, listProducts[indexProduct].ProductID, specialPrice);
+
+                indexProduct = r.Next(listProducts.Count);
+                oferta = r.Next(1, 51);
+                specialPrice = listProducts[indexProduct].ProductPrice - (listProducts[indexProduct].ProductPrice * (oferta / 100));
+                daoManager.InsertSpecialPrice(listCustomers[indexCustomer].CustomerID, listProducts[indexProduct].ProductID, specialPrice);
+            }
         }
-
         
+        #endregion
     }
 }

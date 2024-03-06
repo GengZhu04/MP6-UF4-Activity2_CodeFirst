@@ -56,6 +56,7 @@ namespace MP6_UF4_Activity2_CodeFirst.View
             return done;
 
         }
+        
         private async void Get()
         {
             //gridData.ItemsSource = await daoManager.GetOrdersOrderedByDate();
@@ -84,6 +85,11 @@ namespace MP6_UF4_Activity2_CodeFirst.View
 
             //update
             //var result = await daoManager.UpdateEmployee(1703,"El Rey","Artur","x4444",null,"1","aaaaaa","aa");
+        }
+
+        private void Create20RandomSpeacialPrice()
+        {
+
         }
     }
 }

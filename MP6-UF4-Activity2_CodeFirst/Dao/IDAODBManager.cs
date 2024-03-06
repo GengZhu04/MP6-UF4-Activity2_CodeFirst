@@ -66,6 +66,12 @@ namespace MP6_UF4_Activity2_CodeFirst.Dao
 
         public Task<int> CountProductsWithProductLine(string productLine);
 
+        public Task<ICollection<Object>> GetAllCustomerID();
+
+        public Task<ICollection<Object>> GetAllEmployeeID();
+
+        public Task<ICollection<Object>> GetAllProductID();
+
         #endregion
 
         #region PART 4
